@@ -1,1 +1,3 @@
-spring.application.name=IoT-Server
+spring:
+  profiles:
+    active: local
