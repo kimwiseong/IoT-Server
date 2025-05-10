@@ -1,8 +1,8 @@
 package com.monorama.iot_server.config;
 
 import com.monorama.iot_server.constant.Constant;
-import com.monorama.iot_server.intercepter.UserIdInterceptor;
-import com.monorama.iot_server.intercepter.UserIdResolver;
+import com.monorama.iot_server.interceptor.UserIdInterceptor;
+import com.monorama.iot_server.interceptor.UserIdResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

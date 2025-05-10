@@ -1,4 +1,4 @@
-package com.monorama.iot_server.intercepter;
+package com.monorama.iot_server.interceptor;
 
 import com.monorama.iot_server.dto.ResponseDto;
 import org.springframework.core.MethodParameter;
