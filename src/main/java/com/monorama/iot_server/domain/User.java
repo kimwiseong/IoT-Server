@@ -1,7 +1,8 @@
 package com.monorama.iot_server.domain;
 
 import com.monorama.iot_server.domain.embedded.PersonalInfoItem;
-import com.monorama.iot_server.domain.type.*;
+import com.monorama.iot_server.type.EProvider;
+import com.monorama.iot_server.type.ERole;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,45 +13,44 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
-
-
-@Entity(name = "user_tb")
-@NoArgsConstructor
+@Entity
 @Getter
+@NoArgsConstructor
+@Table(name = "user_tb")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private final Long id = 0L;
+    private Long id;
 
-    @Embedded
-    private PersonalInfoItem personalInfo;
-
-    @Enumerated(STRING)
-    @Column(name = "role")
-    private Role role;
-
+    /*** social login information ***/
     @Column(name = "social_id")
     private String socialId;
 
-    @Enumerated(STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "provider")
-    private LoginProvider provider;
+    private EProvider provider;
 
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private ERole role;
+
     @Column(name = "is_login")
     private Boolean isLogin;
+
+    /*** basic information ***/
+    @Embedded
+    private PersonalInfoItem personalInfo;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 
+    /*** mapping information ***/
     @OneToMany(mappedBy = "user")
     private List<HealthData> healthDataList = new ArrayList<>();
 
@@ -66,23 +66,28 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserProject> userProjectList = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_data_permission_id")
     private UserDataPermission userDataPermission;
 
+    /*** constructor ***/
     @Builder
-    public User(Role role, String socialId, LoginProvider provider, Boolean isLogin) {
+    public User(ERole role, String socialId, EProvider provider) {
         this.role = role;
         this.socialId = socialId;
         this.provider = provider;
-        this.isLogin = isLogin;
+    }
+
+    /*** business logic ***/
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void register(PersonalInfoItem personalInfo) {
+        this.personalInfo = personalInfo;
     }
 
     private void setUserDataPermission(UserDataPermission userDataPermission) {
         this.userDataPermission = userDataPermission;
     }
 }
-
-
-
-

@@ -1,31 +1,33 @@
 package com.monorama.iot_server.domain;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
-import static jakarta.persistence.FetchType.LAZY;
-
-@Entity(name = "user_project_tb")
+@Entity
+@Table(name = "user_project_tb")
 public class UserProject {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_project_id")
-    private final Long id = 0L;
+    @Column(name = "user_project_id", updatable = false)
+    private Long id;
 
-    @CreatedDate
-    @Column(name = "created_at")
+    /*** basic information ***/
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", updatable = false)
     private Date createdAt;
 
-    @ManyToOne(fetch = LAZY)
+    /*** mapping information ***/
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
+    /*** business logic ***/
     private void setUser(User user) {
         this.user = user;
         user.getUserProjectList().add(this);
@@ -35,6 +37,4 @@ public class UserProject {
         this.project = project;
         project.getUserProjectList().add(this);
     }
-
-
 }
