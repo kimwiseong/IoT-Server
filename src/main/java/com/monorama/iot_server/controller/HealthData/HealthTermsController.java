@@ -1,5 +1,6 @@
 package com.monorama.iot_server.controller.HealthData;
 
+import com.monorama.iot_server.domain.type.ServiceType;
 import com.monorama.iot_server.dto.ResponseDto;
 import com.monorama.iot_server.dto.response.terms.TermsListResponseDto;
 import com.monorama.iot_server.service.TermsService;
@@ -17,9 +18,7 @@ public class HealthTermsController {
 
     @GetMapping
     public ResponseDto<TermsListResponseDto> getTerms() {
-        TermsListResponseDto result = termsService.getHealthSignupTerms();
+        TermsListResponseDto result = termsService.getTermsByProjectType(ServiceType.HEALTH_DATA);
         return ResponseDto.ok(result);
     }
 }
-
-

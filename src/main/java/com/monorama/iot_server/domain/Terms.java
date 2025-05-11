@@ -1,5 +1,6 @@
 package com.monorama.iot_server.domain;
 
+import com.monorama.iot_server.domain.type.ServiceType;
 import com.monorama.iot_server.domain.type.TermsType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -19,6 +20,10 @@ public class Terms {
     @Enumerated(EnumType.STRING)
     @Column(name = "terms_type", nullable = false)
     private TermsType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service_type", nullable = false)
+    private ServiceType serviceType;
 
     @Column(length = 20, nullable = false)
     private String title;
