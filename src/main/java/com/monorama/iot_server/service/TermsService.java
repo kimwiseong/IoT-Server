@@ -24,8 +24,9 @@ public class TermsService {
         ));
 
         List<TermsResponseDto> dtoList = termsList.stream()
-                .map(Terms::toDto)
+                .map(TermsResponseDto::fromEntity)
                 .collect(Collectors.toList());
+
 
         return TermsListResponseDto.of(dtoList);
     }

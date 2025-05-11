@@ -1,7 +1,6 @@
 package com.monorama.iot_server.domain;
 
 import com.monorama.iot_server.domain.type.TermsType;
-import com.monorama.iot_server.dto.response.terms.TermsResponseDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,8 +25,4 @@ public class Terms {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-
-    public TermsResponseDto toDto() {
-        return TermsResponseDto.of(type.toString(), title, content);
-    }
 }
