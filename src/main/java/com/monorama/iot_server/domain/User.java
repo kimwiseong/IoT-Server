@@ -1,7 +1,8 @@
 package com.monorama.iot_server.domain;
 
 import com.monorama.iot_server.domain.embedded.PersonalInfoItem;
-import com.monorama.iot_server.domain.type.*;
+import com.monorama.iot_server.type.EProvider;
+import com.monorama.iot_server.type.ERole;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,9 +18,10 @@ import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 
 
-@Entity(name = "user_tb")
+@Entity
 @NoArgsConstructor
 @Getter
+@Table(name = "user_tb")
 public class User {
 
     @Id
@@ -30,16 +32,16 @@ public class User {
     @Embedded
     private PersonalInfoItem personalInfo;
 
-    @Enumerated(STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Role role;
+    private ERole role;
 
     @Column(name = "social_id")
     private String socialId;
 
-    @Enumerated(STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "provider")
-    private LoginProvider provider;
+    private EProvider provider;
 
     @Column(name = "refresh_token")
     private String refreshToken;
@@ -71,11 +73,18 @@ public class User {
     private UserDataPermission userDataPermission;
 
     @Builder
-    public User(Role role, String socialId, LoginProvider provider, Boolean isLogin) {
+    public User(ERole role, String socialId, EProvider provider) {
         this.role = role;
         this.socialId = socialId;
         this.provider = provider;
-        this.isLogin = isLogin;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void register(PersonalInfoItem personalInfo) {
+        this.personalInfo = personalInfo;
     }
 
     private void setUserDataPermission(UserDataPermission userDataPermission) {
