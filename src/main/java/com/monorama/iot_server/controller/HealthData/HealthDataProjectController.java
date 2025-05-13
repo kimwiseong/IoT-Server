@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/health-data/projects")
+@RequestMapping("/api/v1/health-data")
 @RequiredArgsConstructor
 public class HealthDataProjectController {
 
     private final HealthDataProjectService projectService;
 
-    @GetMapping
+    @GetMapping("/projects")
     public ResponseDto<ProjectListResponseDto> getAllProjects() {
         return ResponseDto.ok(projectService.getAllHealthProjects());
     }
 
-    @GetMapping("/{projectId}")
+    @GetMapping("/projects/{projectId}")
     public ResponseDto<ProjectDetailResponseDto> getProjectDetail(@PathVariable Long projectId) {
         return ResponseDto.ok(projectService.getProjectDetail(projectId));
     }
