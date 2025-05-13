@@ -35,6 +35,7 @@ public enum ErrorCode {
 
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_DIARY(40402,HttpStatus.NOT_FOUND,"해당 일기가 존재하지 않습니다."),
+    NOT_FOUND_PROJECT(40403, HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."),
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다.");
 
 
