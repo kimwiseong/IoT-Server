@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 @Entity
-@Table(name = "project_tb")
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
+@Table(name = "project_tb")
 public class Project {
 
     @Id
@@ -27,6 +25,7 @@ public class Project {
     @Column(name = "project_id")
     private Long id;
 
+    /*** basic information ***/
     @Enumerated(EnumType.STRING)
     @Column(name = "project_type")
     private ProjectType projectType;
@@ -74,7 +73,8 @@ public class Project {
     @Embedded
     private AirQualityDataFlag airQualityDataFlag = new AirQualityDataFlag();
 
-    @ManyToOne(fetch = LAZY)
+    /*** mapping information ***/
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -87,6 +87,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<AirMetaData> airMetaDataList = new ArrayList<>();
 
+    /*** constructor ***/
     @Builder
     public Project(ProjectType projectType, String title, Integer participant, Date startDate, Date endDate, String description, String termsOfPolicy, String privacyPolicy, String healthDataConsent, String airDataConsent, String localDataTermsOfService) {
         this.projectType = projectType;
@@ -102,6 +103,7 @@ public class Project {
         this.localDataTermsOfService = localDataTermsOfService;
     }
 
+    /*** business logic ***/
     private void setUser(User user) {
         this.user = user;
         user.getProjectList().add(this);

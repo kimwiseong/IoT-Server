@@ -6,32 +6,34 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.FetchType.LAZY;
-
-@Entity(name = "air_meta_data_item_tb")
+@Entity
 @Getter
+@Table(name = "air_meta_data_item_tb")
 public class AirMetaDataItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "air_meta_data_item_id")
-    private final Long id = 0L;
+    private Long id;
 
+    /*** basic information ***/
     @Column(name = "data_name")
     private String dataName;
 
     @Column(name = "data_type")
     private String dataType;
 
-    @ManyToOne(fetch = LAZY)
+    /*** mapping information ***/
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
 
     @OneToMany(mappedBy = "airMetaDataItem")
     private List<AirMetaData> airMetaDataList = new ArrayList<>();
 
+    /*** business logic ***/
     private void setProject(Project project) {
         this.project = project;
         project.getAirMetaDataItemList().add(this);
     }
-
 }

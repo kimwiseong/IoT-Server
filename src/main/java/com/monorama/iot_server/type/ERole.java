@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ERole {
-    USER("USER", "ROLE_USER"),
+    PM("PM", "ROLE_PM"),
+    HEALTH_DATA_USER("HEALTH_DATA_USER", "ROLE_HEALTH_DATA_USER"),
+    AIR_QUALITY_USER("AIR_QUALITY_USER", "ROLE_AIR_QUALITY_USER"),
+    BOTH_USER("BOTH_USER", "ROLE_BOTH_USER"),
     ADMIN("ADMIN", "ROLE_ADMIN"),
     GUEST("GUEST", "ROLE_GUEST");
 
