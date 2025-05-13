@@ -7,6 +7,7 @@ import com.monorama.iot_server.repository.AirQualityDataRepository;
 import com.monorama.iot_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class AirQualityDataService {
     private final UserRepository userRepo;
     private final AirQualityDataRepository airRepo;
 
+    @Transactional
     public void saveRealtime(Long userId, AirQualityDataRequestDto dto) {
         User user = userRepo.findById(userId).orElseThrow();
         AirQualityData entity = dto.toEntity(user);

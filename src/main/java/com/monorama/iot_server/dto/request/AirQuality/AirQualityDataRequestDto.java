@@ -1,15 +1,10 @@
 package com.monorama.iot_server.dto.request.AirQuality;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.AirQualityData;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.AirQualityDataItem;
 
-import java.util.Date;
-
 public record AirQualityDataRequestDto(
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        Date createAt,
         Double pm25Value,
         Integer pm25Level,
         Double pm10Value,
@@ -27,7 +22,6 @@ public record AirQualityDataRequestDto(
 ) {
     public AirQualityData toEntity(User user) {
         AirQualityData entity = new AirQualityData();
-        entity.setCreatedAt(this.createAt);
         entity.setAirQualityDataItem(
                 AirQualityDataItem.builder()
                         .pm25Value(pm25Value)

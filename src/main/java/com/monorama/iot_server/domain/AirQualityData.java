@@ -37,8 +37,4 @@ public class AirQualityData {
     public void setAirQualityDataItem(AirQualityDataItem item) {
         this.airQualityDataItem = item;
     }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
