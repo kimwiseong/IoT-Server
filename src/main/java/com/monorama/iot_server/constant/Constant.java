@@ -19,6 +19,7 @@ public class Constant {
             "/oauth2/authorization/google",
             "/login/oauth2/code/naver",
             "/oauth2/authorization/naver",
-            "/auth/refresh"
+            "/auth/refresh",
+            "/favicon.ico"
     );
 }
