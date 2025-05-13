@@ -16,7 +16,8 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity(name = "project_tb")
+@Entity
+@Table(name = "project_tb")
 @NoArgsConstructor
 @Getter
 public class Project {
@@ -24,7 +25,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
-    private final Long id = 0L;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "project_type")
@@ -65,13 +66,13 @@ public class Project {
     private String localDataTermsOfService;
 
     @Embedded
-    private PersonalInfoFlag personalInfoFlag;
+    private PersonalInfoFlag personalInfoFlag = new PersonalInfoFlag();
 
     @Embedded
-    private HealthDataFlag healthDataFlag;
+    private HealthDataFlag healthDataFlag = new HealthDataFlag();
 
     @Embedded
-    private AirQualityDataFlag airQualityDataFlag;
+    private AirQualityDataFlag airQualityDataFlag = new AirQualityDataFlag();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -105,7 +106,4 @@ public class Project {
         this.user = user;
         user.getProjectList().add(this);
     }
-
-
 }
-

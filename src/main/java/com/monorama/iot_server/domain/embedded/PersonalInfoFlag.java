@@ -8,34 +8,35 @@ import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class PersonalInfoFlag {
 
-    @Column(name = "name")
+    @Column(name = "name_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean name;
 
-    @Column(name = "email")
+    @Column(name = "email_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean email;
 
-    @Column(name = "gender")
+    @Column(name = "gender_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean gender;
 
-    @Column(name = "national_code")
+    @Column(name = "national_code_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean nationalCode;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean phoneNumber;
 
-    @Column(name = "date_of_birth")
+    @Column(name = "date_of_birth_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean dateOfBirth;
 
-    @Column(name = "blood_type")
+    @Column(name = "blood_type_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean bloodType;
 
-    @Column(name = "height")
+    @Column(name = "height_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean height;
 
-    @Column(name = "weight")
+    @Column(name = "weight_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean weight;
 }
+
 
