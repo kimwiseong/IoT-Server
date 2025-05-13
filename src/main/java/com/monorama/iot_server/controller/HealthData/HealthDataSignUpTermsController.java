@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/health-data/terms")
 @RequiredArgsConstructor
-public class HealthTermsController {
+public class HealthDataSignUpTermsController {
 
     private final TermsService termsService;
 
