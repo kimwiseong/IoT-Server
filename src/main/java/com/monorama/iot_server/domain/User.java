@@ -13,29 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static jakarta.persistence.EnumType.*;
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
-
-
 @Entity
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Table(name = "user_tb")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private final Long id = 0L;
+    private Long id;
 
-    @Embedded
-    private PersonalInfoItem personalInfo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private ERole role;
-
+    /*** social login information ***/
     @Column(name = "social_id")
     private String socialId;
 
@@ -46,13 +35,22 @@ public class User {
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private ERole role;
+
     @Column(name = "is_login")
     private Boolean isLogin;
+
+    /*** basic information ***/
+    @Embedded
+    private PersonalInfoItem personalInfo;
 
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 
+    /*** mapping information ***/
     @OneToMany(mappedBy = "user")
     private List<HealthData> healthDataList = new ArrayList<>();
 
@@ -68,10 +66,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserProject> userProjectList = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_data_permission_id")
     private UserDataPermission userDataPermission;
 
+    /*** constructor ***/
     @Builder
     public User(ERole role, String socialId, EProvider provider) {
         this.role = role;
@@ -79,6 +78,7 @@ public class User {
         this.provider = provider;
     }
 
+    /*** business logic ***/
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
@@ -91,7 +91,3 @@ public class User {
         this.userDataPermission = userDataPermission;
     }
 }
-
-
-
-
