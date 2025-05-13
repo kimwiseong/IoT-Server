@@ -52,4 +52,22 @@ public class AirQualityDataFlag {
 
     @Column(name = "pico_device_longitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean picoDeviceLongitude;
+
+    public void updateBy(AirQualityDataFlag projectFlag) {
+        if (projectFlag.pm25Value) this.pm25Value = true;
+        if (projectFlag.pm25Level) this.pm25Level = true;
+        if (projectFlag.pm10Value) this.pm10Value = true;
+        if (projectFlag.pm10Level) this.pm10Level = true;
+        if (projectFlag.temperature) this.temperature = true;
+        if (projectFlag.temperatureLevel) this.temperatureLevel = true;
+        if (projectFlag.humidity) this.humidity = true;
+        if (projectFlag.humidityLevel) this.humidityLevel = true;
+        if (projectFlag.co2Value) this.co2Value = true;
+        if (projectFlag.co2Level) this.co2Level = true;
+        if (projectFlag.vocValue) this.vocValue = true;
+        if (projectFlag.vocLevel) this.vocLevel = true;
+        if (projectFlag.picoDeviceLatitude) this.picoDeviceLatitude = true;
+        if (projectFlag.picoDeviceLongitude) this.picoDeviceLongitude = true;
+    }
+
 }

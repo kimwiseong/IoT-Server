@@ -66,8 +66,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserProject> userProjectList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_data_permission_id")
+    @OneToOne(mappedBy = "user")
     private UserDataPermission userDataPermission;
 
     /*** constructor ***/

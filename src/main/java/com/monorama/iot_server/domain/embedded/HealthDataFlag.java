@@ -52,4 +52,21 @@ public class HealthDataFlag {
 
     @Column(name = "watch_device_longitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean watchDeviceLongitude;
+
+    public void updateBy(HealthDataFlag projectFlag) {
+        if (projectFlag.stepCount) this.stepCount = true;
+        if (projectFlag.runningSpeed) this.runningSpeed = true;
+        if (projectFlag.basalEnergyBurned) this.basalEnergyBurned = true;
+        if (projectFlag.activeEnergyBurned) this.activeEnergyBurned = true;
+        if (projectFlag.sleepAnalysis) this.sleepAnalysis = true;
+        if (projectFlag.heartRate) this.heartRate = true;
+        if (projectFlag.oxygenSaturation) this.oxygenSaturation = true;
+        if (projectFlag.bloodPressureSystolic) this.bloodPressureSystolic = true;
+        if (projectFlag.bloodPressureDiastolic) this.bloodPressureDiastolic = true;
+        if (projectFlag.respiratoryRate) this.respiratoryRate = true;
+        if (projectFlag.bodyTemperature) this.bodyTemperature = true;
+        if (projectFlag.ecgData) this.ecgData = true;
+        if (projectFlag.watchDeviceLatitude) this.watchDeviceLatitude = true;
+        if (projectFlag.watchDeviceLongitude) this.watchDeviceLongitude = true;
+    }
 }

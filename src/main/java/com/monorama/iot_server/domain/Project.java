@@ -75,7 +75,7 @@ public class Project {
 
     /*** mapping information ***/
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "pm_id")
     private User user;
 
     @OneToMany(mappedBy = "project")

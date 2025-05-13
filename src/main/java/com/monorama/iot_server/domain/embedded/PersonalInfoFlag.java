@@ -37,6 +37,18 @@ public class PersonalInfoFlag {
 
     @Column(name = "weight_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean weight;
+
+    public void updateBy(PersonalInfoFlag projectFlag) {
+        if (projectFlag.name) this.name = true;
+        if (projectFlag.email) this.email = true;
+        if (projectFlag.gender) this.gender = true;
+        if (projectFlag.nationalCode) this.nationalCode = true;
+        if (projectFlag.phoneNumber) this.phoneNumber = true;
+        if (projectFlag.dateOfBirth) this.dateOfBirth = true;
+        if (projectFlag.bloodType) this.bloodType = true;
+        if (projectFlag.height) this.height = true;
+        if (projectFlag.weight) this.weight = true;
+    }
 }
 
 
