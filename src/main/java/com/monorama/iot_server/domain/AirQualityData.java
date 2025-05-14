@@ -29,8 +29,12 @@ public class AirQualityData {
     private User user;
 
     /*** business logic ***/
-    private void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
         user.getAirQualityDataList().add(this);
+    }
+
+    public void setAirQualityDataItem(AirQualityDataItem item) {
+        this.airQualityDataItem = item;
     }
 }
