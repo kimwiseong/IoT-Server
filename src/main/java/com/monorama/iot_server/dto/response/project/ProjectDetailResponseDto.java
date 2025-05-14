@@ -11,56 +11,56 @@ import java.util.Date;
 
 public record ProjectDetailResponseDto(
         String projectTitle,
-        int participant,
+        Integer participant,
         String description,
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
         Date startDate,
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         Date endDate,
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
-        Date createdDate,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        Date createdAt,
 
-        boolean email,
-        boolean gender,
-        boolean phoneNumber,
-        boolean dateOfBirth,
-        boolean bloodType,
-        boolean height,
-        boolean weight,
-        boolean name,
+        Boolean email,
+        Boolean gender,
+        Boolean phoneNumber,
+        Boolean dateOfBirth,
+        Boolean bloodType,
+        Boolean height,
+        Boolean weight,
+        Boolean name,
 
-        boolean stepCount,
-        boolean runningSpeed,
-        boolean basalEnergyBurned,
-        boolean activeEnergyBurned,
-        boolean sleepAnalysis,
-        boolean heartRate,
-        boolean oxygenSaturation,
-        boolean bloodPressureSystolic,
-        boolean bloodPressureDiastolic,
-        boolean respiratoryRate,
-        boolean bodyTemperature,
-        boolean ecgData,
-        boolean watchDeviceLatitude,
-        boolean watchDeviceLongitude,
+        Boolean stepCount,
+        Boolean runningSpeed,
+        Boolean basalEnergyBurned,
+        Boolean activeEnergyBurned,
+        Boolean sleepAnalysis,
+        Boolean heartRate,
+        Boolean oxygenSaturation,
+        Boolean bloodPressureSystolic,
+        Boolean bloodPressureDiastolic,
+        Boolean respiratoryRate,
+        Boolean bodyTemperature,
+        Boolean ecgData,
+        Boolean watchDeviceLatitude,
+        Boolean watchDeviceLongitude,
 
-        boolean pm25Value,
-        boolean pm25Level,
-        boolean pm10Value,
-        boolean pm10Level,
-        boolean temperature,
-        boolean temperatureLevel,
-        boolean humidity,
-        boolean humidityLevel,
-        boolean co2Value,
-        boolean co2Level,
-        boolean vocValue,
-        boolean vocLevel,
-        boolean picoDeviceLatitude,
-        boolean picoDeviceLongitude
+        Boolean pm25Value,
+        Boolean pm25Level,
+        Boolean pm10Value,
+        Boolean pm10Level,
+        Boolean temperature,
+        Boolean temperatureLevel,
+        Boolean humidity,
+        Boolean humidityLevel,
+        Boolean co2Value,
+        Boolean co2Level,
+        Boolean vocValue,
+        Boolean vocLevel,
+        Boolean picoDeviceLatitude,
+        Boolean picoDeviceLongitude
 ) {
     public static ProjectDetailResponseDto fromEntity(Project project) {
         PersonalInfoFlag p = project.getPersonalInfoFlag();
