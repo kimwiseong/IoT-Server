@@ -46,7 +46,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         // Guest 즉, 소셜로그인으로 방금 가입한 유저는 따로 로직 분류
 
         if (userPrincipal.getRole().equals(ERole.GUEST)) {
-            response.sendRedirect( "http://localhost:5173/auth/register/social" + jwtTokenDto.getAccessToken());
+            response.sendRedirect( "http://localhost:5173/auth/register/social_" + jwtTokenDto.getAccessToken());
         } else {
             response.sendRedirect("http://localhost:5173");
         }
