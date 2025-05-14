@@ -6,6 +6,6 @@ import com.monorama.iot_server.domain.UserProject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserProjectRepository extends JpaRepository<UserProject, Long> {
-    boolean existsByUserAndProject(User user, Project project);
+    Boolean existsByUserAndProject(User user, Project project);
 }
 
