@@ -1,5 +1,6 @@
 package com.monorama.iot_server.dto.response.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.Project;
 import com.monorama.iot_server.domain.embedded.AirQualityDataFlag;
 import com.monorama.iot_server.domain.embedded.HealthDataFlag;
@@ -12,8 +13,14 @@ public record ProjectDetailResponseDto(
         String projectTitle,
         int participant,
         String description,
+
+        @JsonFormat(pattern = "yyyy-MM-dd")
         Date startDate,
+
+        @JsonFormat(pattern = "yyyy-MM-dd")
         Date endDate,
+
+        @JsonFormat(pattern = "yyyy-MM-dd")
         Date createdDate,
 
         boolean email,
