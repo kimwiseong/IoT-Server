@@ -3,7 +3,7 @@ package com.monorama.iot_server.controller.airquality;
 import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.dto.ResponseDto;
 import com.monorama.iot_server.dto.request.airquality.AQDRealtimeRequestDto;
-import com.monorama.iot_server.service.AQDService;
+import com.monorama.iot_server.service.airquality.AQDService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

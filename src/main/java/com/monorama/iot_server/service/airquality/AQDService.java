@@ -1,4 +1,4 @@
-package com.monorama.iot_server.service;
+package com.monorama.iot_server.service.airquality;
 
 import com.monorama.iot_server.domain.AirQualityData;
 import com.monorama.iot_server.domain.User;
