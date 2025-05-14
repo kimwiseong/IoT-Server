@@ -9,7 +9,7 @@ import jakarta.validation.constraints.*;
 
 import java.util.Date;
 
-public record AQDUserRegisterDto(
+public record UserRegisterDto(
         @NotBlank()
         String name,
 

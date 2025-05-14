@@ -2,7 +2,7 @@ package com.monorama.iot_server.service;
 
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.dto.JwtTokenDto;
-import com.monorama.iot_server.dto.request.register.AQDUserRegisterDto;
+import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
@@ -32,10 +32,22 @@ public class AuthService {
     }
 
     @Transactional
-    public JwtTokenDto registerAQDUser(Long userId, AQDUserRegisterDto registerDto) {
+    public JwtTokenDto registerAQDUser(Long userId, UserRegisterDto registerDto) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
         user.register(registerDto.toEntity(), ERole.AIR_QUALITY_USER);
+
+        final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
+        user.setRefreshToken(jwtTokenDto.getRefreshToken());
+
+        return jwtTokenDto;
+    }
+
+    @Transactional
+    public JwtTokenDto registerHDUser(Long userId, UserRegisterDto registerDto) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        user.register(registerDto.toEntity(), ERole.HEALTH_DATA_USER);
 
         final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
         user.setRefreshToken(jwtTokenDto.getRefreshToken());

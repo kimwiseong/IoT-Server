@@ -2,7 +2,7 @@ package com.monorama.iot_server.controller;
 
 import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.dto.ResponseDto;
-import com.monorama.iot_server.dto.request.register.AQDUserRegisterDto;
+import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.service.AuthService;
 import jakarta.validation.Valid;
@@ -23,7 +23,12 @@ public class AuthController {
     }
 
     @PostMapping("/register/air-quality-data")
-    public ResponseDto<?> registerAQDUser(@UserId Long userId, @RequestBody @Valid AQDUserRegisterDto registerDto) {
+    public ResponseDto<?> registerAQDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto) {
         return ResponseDto.created(userService.registerAQDUser(userId, registerDto));
+    }
+
+    @PostMapping("/register/health-data")
+    public ResponseDto<?> registerHDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto) {
+        return ResponseDto.created(userService.registerHDUser(userId, registerDto));
     }
 }
