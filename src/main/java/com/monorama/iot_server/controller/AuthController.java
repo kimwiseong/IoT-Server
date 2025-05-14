@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private final AuthService userService;
 
     //소셜 회원가입
-    @PostMapping("/register/PM")
+    @PostMapping("/register/pm")
     public ResponseDto<?> registerPM(@UserId Long userId, @RequestBody @Valid PMRegisterDto registerDto) {
         return ResponseDto.created(userService.registerPM(userId, registerDto));
     }
