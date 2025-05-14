@@ -1,0 +1,81 @@
+package com.monorama.iot_server.service.airquality;
+
+import com.monorama.iot_server.domain.Project;
+import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.domain.UserDataPermission;
+import com.monorama.iot_server.domain.UserProject;
+import com.monorama.iot_server.domain.type.TermsType;
+import com.monorama.iot_server.dto.response.project.ProjectDetailResponseDto;
+import com.monorama.iot_server.dto.response.project.ProjectListResponseDto;
+import com.monorama.iot_server.dto.response.project.ProjectSimpleResponseDto;
+import com.monorama.iot_server.dto.response.terms.TermsContentResponseDto;
+import com.monorama.iot_server.exception.CommonException;
+import com.monorama.iot_server.exception.ErrorCode;
+import com.monorama.iot_server.repository.AQDProjectRepository;
+import com.monorama.iot_server.repository.UserProjectRepository;
+import com.monorama.iot_server.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class AQDProjectService {
+
+    private final AQDProjectRepository aqdProjectRepo;
+    private final UserRepository userRepo;
+    private final UserProjectRepository userProjectRepo;
+
+    public ProjectListResponseDto getAvailableAirQualityProjectList() {
+        List<ProjectSimpleResponseDto> projects = aqdProjectRepo.findActiveAirQualityProjects()
+                .stream()
+                .map(ProjectSimpleResponseDto::fromEntity)
+                .toList();
+
+        return ProjectListResponseDto.of(projects);
+    }
+
+    // 메소드 이름 수정? 아니면 AQ, HD 통합?
+    public ProjectDetailResponseDto getAQDProjectDetail(Long projectId) {
+        Project project = aqdProjectRepo.findById(projectId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PROJECT));
+
+        return ProjectDetailResponseDto.fromEntity(project);
+    }
+
+    public TermsContentResponseDto getTermsContent(Long projectId, TermsType type) {
+        Project project = aqdProjectRepo.findById(projectId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
+
+        return TermsContentResponseDto.fromEntity(project, type);
+    }
+
+    @Transactional
+    public void participateProject(Long userId, Long projectId) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        Project project = aqdProjectRepo.findActiveAirQualityProjectById(projectId)
+                .orElseThrow(() -> new CommonException(ErrorCode.PROJECT_NOT_AVAILABLE));
+
+        if (userProjectRepo.existsByUserAndProject(user, project)) {
+            throw new CommonException(ErrorCode.ALREADY_JOINED_PROJECT);
+        }
+
+        userProjectRepo.save(
+                UserProject.builder()
+                        .user(user)
+                        .project(project)
+                        .build()
+        );
+
+        UserDataPermission permission = user.getUserDataPermission();
+        permission.getAirQualityDataFlag().updateBy(project.getAirQualityDataFlag());
+        permission.getHealthDataFlag().updateBy(project.getHealthDataFlag());
+        permission.getPersonalInfoFlag().updateBy(project.getPersonalInfoFlag());
+    }
+}
