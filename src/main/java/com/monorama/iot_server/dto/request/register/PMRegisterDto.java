@@ -1,4 +1,4 @@
-package com.monorama.iot_server.dto.request;
+package com.monorama.iot_server.dto.request.register;
 
 import com.monorama.iot_server.annotation.PhoneNumber;
 import com.monorama.iot_server.domain.embedded.PersonalInfoItem;
