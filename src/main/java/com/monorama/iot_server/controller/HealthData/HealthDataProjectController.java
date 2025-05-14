@@ -17,7 +17,7 @@ public class HealthDataProjectController {
 
     @GetMapping("/projects")
     public ResponseDto<ProjectListResponseDto> getAllProjects() {
-        return ResponseDto.ok(projectService.getAllHealthProjects());
+        return ResponseDto.ok(projectService.getAvailableHealthProjectList());
     }
 
     @GetMapping("/projects/{projectId}")

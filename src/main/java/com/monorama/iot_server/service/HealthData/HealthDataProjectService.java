@@ -32,16 +32,7 @@ public class HealthDataProjectService {
     private final UserRepository userRepository;
     private final UserProjectRepository userProjectRepository;
 
-//    public ProjectListResponseDto getAllHealthProjects() {
-//        List<ProjectSimpleResponseDto> projects = projectRepository.findByProjectType(ProjectType.HEALTH_DATA)
-//                .stream()
-//                .map(ProjectSimpleResponseDto::fromEntity)
-//                .toList();
-//
-//        return ProjectListResponseDto.of(projects);
-//    }
-
-    public ProjectListResponseDto getAllHealthProjects() {
+    public ProjectListResponseDto getAvailableHealthProjectList() {
         Date now = new Date();
 
         List<ProjectSimpleResponseDto> projects = projectRepository.findAll().stream()
@@ -93,8 +84,6 @@ public class HealthDataProjectService {
 
         // 유저 권한 정보 업데이트
         UserDataPermission userDataPermission = user.getUserDataPermission();
-        log.info("UserDataPermission: {}", userDataPermission);
-        log.info("User: {}", user.getId());
         userDataPermission.getAirQualityDataFlag().updateBy(project.getAirQualityDataFlag());
         userDataPermission.getHealthDataFlag().updateBy(project.getHealthDataFlag());
         userDataPermission.getPersonalInfoFlag().updateBy(project.getPersonalInfoFlag());
