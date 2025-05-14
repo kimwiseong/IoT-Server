@@ -47,7 +47,7 @@ public class User {
     private PersonalInfoItem personalInfo;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)")
     private Date createdAt;
 
     /*** mapping information ***/

@@ -17,7 +17,7 @@ public class HealthData {
 
     /*** basic information ***/
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)")
     private Date createdAt;
 
     @Embedded
