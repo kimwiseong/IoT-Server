@@ -1,10 +1,10 @@
-package com.monorama.iot_server.dto.request.AirQuality;
+package com.monorama.iot_server.dto.request.airquality;
 
 import com.monorama.iot_server.domain.AirQualityData;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.AirQualityDataItem;
 
-public record AirQualityDataRequestDto(
+public record AQDRealtimeRequestDto(
         Double pm25Value,
         Integer pm25Level,
         Double pm10Value,

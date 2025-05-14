@@ -1,14 +1,10 @@
 package com.monorama.iot_server.domain.embedded;
 
-import com.monorama.iot_server.domain.type.ProjectType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Embeddable
 @Getter
