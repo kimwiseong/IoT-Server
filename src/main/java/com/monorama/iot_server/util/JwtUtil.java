@@ -62,7 +62,7 @@ public class JwtUtil implements InitializingBean {
         return generateToken(claims, expirationPeriod);
     }
 
-    public int getAccessTokenExpriration() {
+    public int getAccessTokenExpiration() {
         return ACCESS_EXPIRED_MS;
     }
 

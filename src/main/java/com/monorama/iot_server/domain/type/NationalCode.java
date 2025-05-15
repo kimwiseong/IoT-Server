@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum NationalCode {
-    US("+01"),
+    US("+1"),
     KR("+82");
 
     private final String nationalCode;
