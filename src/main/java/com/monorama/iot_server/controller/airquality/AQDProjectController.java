@@ -25,7 +25,6 @@ public class AQDProjectController {
         return ResponseDto.ok(aqdProjectService.getAQDProjectDetail(projectId));
     }
 
-    // API 명세와 다른 부분(추후 팀원과 확인 필요)
     @PostMapping("/projects/{projectId}/participation")
     public ResponseDto<?> participateProject(@UserId Long userId,
                                              @PathVariable Long projectId) {

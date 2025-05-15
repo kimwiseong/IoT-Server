@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-// API 명세 팀원에게 물어보기
-// 코드 합치는 것도 물어볼만 할지도?
 @RequestMapping("/api/v1/air-quality-data/projects/{projectId}/terms")
 public class AQDProjectTermsController {
 

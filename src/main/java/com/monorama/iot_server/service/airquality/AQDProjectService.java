@@ -39,7 +39,6 @@ public class AQDProjectService {
         return ProjectListResponseDto.of(projects);
     }
 
-    // 메소드 이름 수정? 아니면 AQ, HD 통합?
     public ProjectDetailResponseDto getAQDProjectDetail(Long projectId) {
         Project project = aqdProjectRepo.findById(projectId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PROJECT));
