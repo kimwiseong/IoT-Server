@@ -4,8 +4,10 @@ import com.monorama.iot_server.domain.embedded.AirQualityDataFlag;
 import com.monorama.iot_server.domain.embedded.HealthDataFlag;
 import com.monorama.iot_server.domain.embedded.PersonalInfoFlag;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "user_data_permission_tb")
 public class UserDataPermission {
 
@@ -23,4 +25,9 @@ public class UserDataPermission {
 
     @Embedded
     private AirQualityDataFlag airQualityDataFlag;
+
+    /*** mapping information ***/
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 }
