@@ -2,7 +2,6 @@ package com.monorama.iot_server.domain;
 
 import com.monorama.iot_server.domain.embedded.AirQualityDataItem;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -16,8 +15,7 @@ public class AirQualityData {
     private Long id;
 
     /*** basic information ***/
-    @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)", nullable = false)
     private Date createdAt;
 
     @Embedded
@@ -36,5 +34,9 @@ public class AirQualityData {
 
     public void setAirQualityDataItem(AirQualityDataItem item) {
         this.airQualityDataItem = item;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

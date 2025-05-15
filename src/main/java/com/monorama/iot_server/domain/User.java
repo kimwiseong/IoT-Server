@@ -47,7 +47,7 @@ public class User {
     private PersonalInfoItem personalInfo;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)")
     private Date createdAt;
 
     /*** mapping information ***/
@@ -66,8 +66,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserProject> userProjectList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_data_permission_id")
+    @OneToOne(mappedBy = "user")
     private UserDataPermission userDataPermission;
 
     /*** constructor ***/
@@ -83,8 +82,13 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
-    public void register(PersonalInfoItem personalInfo) {
+    public void register(PersonalInfoItem personalInfo, ERole role) {
         this.personalInfo = personalInfo;
+        this.role = role;
+    }
+
+    public void updateRoleToBoth() {
+        this.role = ERole.BOTH_USER;
     }
 
     private void setUserDataPermission(UserDataPermission userDataPermission) {

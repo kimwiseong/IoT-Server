@@ -13,10 +13,12 @@ public class Constant {
     public static final List<String> NO_NEED_AUTH_URLS = List.of(
             "/auth/register/basic",
             "/auth/login",
+            "/login/oauth2/code/kakao",
+            "/oauth2/authorization/kakao",
             "/login/oauth2/code/google",
             "/oauth2/authorization/google",
-            "/login/oauth2/code/apple",
-            "/oauth2/authorization/apple",
+            "/login/oauth2/code/naver",
+            "/oauth2/authorization/naver",
             "/auth/refresh",
             "/favicon.ico"
     );

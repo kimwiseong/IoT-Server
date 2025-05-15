@@ -1,5 +1,6 @@
 package com.monorama.iot_server.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.embedded.AirQualityDataFlag;
 import com.monorama.iot_server.domain.embedded.HealthDataFlag;
 import com.monorama.iot_server.domain.embedded.PersonalInfoFlag;
@@ -36,14 +37,18 @@ public class Project {
     @Column(name = "participant")
     private Integer participant;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
     private Date startDate;
 
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "end_date")
     private Date endDate;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)")
     private Date createdAt;
 
     @Column(name = "description")
@@ -65,17 +70,17 @@ public class Project {
     private String localDataTermsOfService;
 
     @Embedded
-    private PersonalInfoFlag personalInfoFlag;
+    private PersonalInfoFlag personalInfoFlag = new PersonalInfoFlag();
 
     @Embedded
-    private HealthDataFlag healthDataFlag;
+    private HealthDataFlag healthDataFlag = new HealthDataFlag();
 
     @Embedded
-    private AirQualityDataFlag airQualityDataFlag;
+    private AirQualityDataFlag airQualityDataFlag = new AirQualityDataFlag();
 
     /*** mapping information ***/
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "pm_id")
     private User user;
 
     @OneToMany(mappedBy = "project")
