@@ -11,47 +11,47 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class HealthDataFlag {
 
-    @Column(name = "step_count_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean stepCount;
+    @Column(name = "step_count_flag", nullable = false)
+    private Boolean stepCount = false;
 
-    @Column(name = "running_speed_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean runningSpeed;
+    @Column(name = "running_speed_flag", nullable = false)
+    private Boolean runningSpeed = false;
 
-    @Column(name = "basal_energy_burned_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean basalEnergyBurned;
+    @Column(name = "basal_energy_burned_flag", nullable = false)
+    private Boolean basalEnergyBurned = false;
 
-    @Column(name = "active_energy_burned_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean activeEnergyBurned;
+    @Column(name = "active_energy_burned_flag", nullable = false)
+    private Boolean activeEnergyBurned = false;
 
-    @Column(name = "sleep_analysis_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean sleepAnalysis;
+    @Column(name = "sleep_analysis_flag", nullable = false)
+    private Boolean sleepAnalysis = false;
 
-    @Column(name = "heart_rate_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean heartRate;
+    @Column(name = "heart_rate_flag", nullable = false)
+    private Boolean heartRate = false;
 
-    @Column(name = "oxygen_saturation_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean oxygenSaturation;
+    @Column(name = "oxygen_saturation_flag", nullable = false)
+    private Boolean oxygenSaturation = false;
 
-    @Column(name = "blood_pressure_systolic_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean bloodPressureSystolic;
+    @Column(name = "blood_pressure_systolic_flag", nullable = false)
+    private Boolean bloodPressureSystolic = false;
 
-    @Column(name = "blood_pressure_diastolic_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean bloodPressureDiastolic;
+    @Column(name = "blood_pressure_diastolic_flag", nullable = false)
+    private Boolean bloodPressureDiastolic = false;
 
-    @Column(name = "respiratory_rate_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean respiratoryRate;
+    @Column(name = "respiratory_rate_flag", nullable = false)
+    private Boolean respiratoryRate = false;
 
-    @Column(name = "body_temperature_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean bodyTemperature;
+    @Column(name = "body_temperature_flag", nullable = false)
+    private Boolean bodyTemperature = false;
 
-    @Column(name = "ecg_data_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean ecgData;
+    @Column(name = "ecg_data_flag", nullable = false)
+    private Boolean ecgData = false;
 
-    @Column(name = "watch_device_latitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean watchDeviceLatitude;
+    @Column(name = "watch_device_latitude_flag", nullable = false)
+    private Boolean watchDeviceLatitude = false;
 
-    @Column(name = "watch_device_longitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean watchDeviceLongitude;
+    @Column(name = "watch_device_longitude_flag", nullable = false)
+    private Boolean watchDeviceLongitude = false;
 
     public void updateBy(HealthDataFlag projectFlag) {
         if (projectFlag.stepCount) this.stepCount = true;

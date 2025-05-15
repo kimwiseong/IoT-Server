@@ -54,9 +54,9 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/projects/**").hasAnyRole((ERole.PM.toString()),ERole.BOTH_USER.toString(), ERole.AIR_QUALITY_USER.toString(), ERole.HEALTH_DATA_USER.toString())
-                        .requestMatchers("/health-data/**").hasAnyRole((ERole.BOTH_USER.toString()),ERole.HEALTH_DATA_USER.toString())
-                        .requestMatchers("/air-quality-data/**").hasAnyRole((ERole.BOTH_USER.toString()), ERole.AIR_QUALITY_USER.toString())
+                        .requestMatchers("/projects/**").hasAnyRole((ERole.PM.toString()),ERole.BOTH_USER.toString(), ERole.AQD_USER.toString(), ERole.HD_USER.toString())
+                        .requestMatchers("/health-data/**").hasAnyRole((ERole.BOTH_USER.toString()),ERole.HD_USER.toString())
+                        .requestMatchers("/air-quality-data/**").hasAnyRole((ERole.BOTH_USER.toString()), ERole.AQD_USER.toString())
                         .anyRequest().authenticated())
 
                 .oauth2Login(
