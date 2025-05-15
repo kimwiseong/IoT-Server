@@ -11,46 +11,46 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AirQualityDataItem {
 
-    @Column(name = "pm25_value")
+    @Column(name = "pm25_value", nullable = false)
     private Double pm25Value;
 
-    @Column(name = "pm25_level")
+    @Column(name = "pm25_level", nullable = false)
     private Integer pm25Level;
 
-    @Column(name = "pm10_value")
+    @Column(name = "pm10_value", nullable = false)
     private Double pm10Value;
 
-    @Column(name = "pm10_level")
+    @Column(name = "pm10_level", nullable = false)
     private Integer pm10Level;
 
-    @Column(name = "temperature")
+    @Column(name = "temperature", nullable = false)
     private Double temperature;
 
-    @Column(name = "temperature_level")
+    @Column(name = "temperature_level", nullable = false)
     private Integer temperatureLevel;
 
-    @Column(name = "humidity")
+    @Column(name = "humidity", nullable = false)
     private Double humidity;
 
-    @Column(name = "humidity_level")
+    @Column(name = "humidity_level", nullable = false)
     private Integer humidityLevel;
 
-    @Column(name = "co2_value")
+    @Column(name = "co2_value", nullable = false)
     private Double co2Value;
 
-    @Column(name = "co2_level")
+    @Column(name = "co2_level", nullable = false)
     private Integer co2Level;
 
-    @Column(name = "voc_value")
+    @Column(name = "voc_value", nullable = false)
     private Double vocValue;
 
-    @Column(name = "voc_level")
+    @Column(name = "voc_level", nullable = false)
     private Integer vocLevel;
 
-    @Column(name = "pico_device_latitude")
+    @Column(name = "pico_device_latitude", nullable = false)
     private Double picoDeviceLatitude;
 
-    @Column(name = "pico_device_longitude")
+    @Column(name = "pico_device_longitude", nullable = false)
     private Double picoDeviceLongitude;
 
     /*** constructor ***/

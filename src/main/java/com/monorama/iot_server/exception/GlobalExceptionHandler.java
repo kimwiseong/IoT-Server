@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseDto<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("Handler in MethodArgumentNotValidException Error Message = " + e.getMessage());
-        return ResponseDto.fail(e);
+        return ResponseDto.fail(new CommonException(ErrorCode.INVALID_ARGUMENT));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
