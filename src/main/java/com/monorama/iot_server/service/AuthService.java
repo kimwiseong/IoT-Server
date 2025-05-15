@@ -1,11 +1,13 @@
 package com.monorama.iot_server.service;
 
 import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.domain.UserDataPermission;
 import com.monorama.iot_server.dto.JwtTokenDto;
 import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
+import com.monorama.iot_server.repository.UserDataPermissonRepository;
 import com.monorama.iot_server.repository.UserRepository;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final UserDataPermissonRepository userDataPermissonRepository;
     private final JwtUtil jwtUtil;
 
     @Transactional
@@ -35,7 +38,10 @@ public class AuthService {
     public JwtTokenDto registerAQDUser(Long userId, UserRegisterDto registerDto) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        user.register(registerDto.toEntity(), ERole.AIR_QUALITY_USER);
+        user.register(registerDto.toEntity(), ERole.AQD_USER);
+
+        UserDataPermission userDataPermission = new UserDataPermission(user);
+        userDataPermissonRepository.save(userDataPermission);
 
         final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
         user.setRefreshToken(jwtTokenDto.getRefreshToken());
@@ -47,7 +53,10 @@ public class AuthService {
     public JwtTokenDto registerHDUser(Long userId, UserRegisterDto registerDto) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        user.register(registerDto.toEntity(), ERole.HEALTH_DATA_USER);
+        user.register(registerDto.toEntity(), ERole.HD_USER);
+
+        UserDataPermission userDataPermission = new UserDataPermission(user);
+        userDataPermissonRepository.save(userDataPermission);
 
         final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
         user.setRefreshToken(jwtTokenDto.getRefreshToken());
@@ -60,7 +69,7 @@ public class AuthService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        if (user.getRole() != ERole.AIR_QUALITY_USER) {
+        if (user.getRole() != ERole.AQD_USER) {
             throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);
         }
         user.updateRoleToBoth();
@@ -76,7 +85,7 @@ public class AuthService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        if (user.getRole() != ERole.HEALTH_DATA_USER) {
+        if (user.getRole() != ERole.HD_USER) {
             throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);
         }
         user.updateRoleToBoth();
