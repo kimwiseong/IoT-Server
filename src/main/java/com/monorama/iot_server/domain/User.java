@@ -88,6 +88,10 @@ public class User {
         this.role = role;
     }
 
+    public void updateRoleToBoth() {
+        this.role = ERole.BOTH_USER;
+    }
+
     private void setUserDataPermission(UserDataPermission userDataPermission) {
         this.userDataPermission = userDataPermission;
     }

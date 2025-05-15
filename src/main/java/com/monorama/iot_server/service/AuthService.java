@@ -55,4 +55,36 @@ public class AuthService {
         return jwtTokenDto;
     }
 
+    @Transactional
+    public JwtTokenDto updateHDUserRole(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        if (user.getRole() != ERole.AIR_QUALITY_USER) {
+            throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);
+        }
+        user.updateRoleToBoth();
+
+        final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
+        user.setRefreshToken(jwtTokenDto.getRefreshToken());
+
+        return jwtTokenDto;
+    }
+
+    @Transactional
+    public JwtTokenDto updateAQDUserRole(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        if (user.getRole() != ERole.HEALTH_DATA_USER) {
+            throw new CommonException(ErrorCode.ACCESS_DENIED_ERROR);
+        }
+        user.updateRoleToBoth();
+
+        final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
+        user.setRefreshToken(jwtTokenDto.getRefreshToken());
+
+        return jwtTokenDto;
+    }
+
 }
