@@ -35,7 +35,6 @@ public class HealthData {
     @Builder
     public HealthData(Long id, Date createdAt, HealthDataItem healthDataItem, User user) {
         this.id = id;
-        this.createdAt = createdAt;
         this.healthDataItem = healthDataItem;
         this.user = user;
     }
