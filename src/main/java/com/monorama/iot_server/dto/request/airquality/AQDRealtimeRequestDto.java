@@ -1,27 +1,36 @@
-package com.monorama.iot_server.dto.request.AirQuality;
+package com.monorama.iot_server.dto.request.airquality;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.AirQualityData;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.AirQualityDataItem;
+import jakarta.validation.constraints.NotNull;
 
-public record AirQualityDataRequestDto(
-        Double pm25Value,
-        Integer pm25Level,
-        Double pm10Value,
-        Integer pm10Level,
-        Double temperature,
-        Integer temperatureLevel,
-        Double humidity,
-        Integer humidityLevel,
-        Double co2Value,
-        Integer co2Level,
-        Double vocValue,
-        Integer vocLevel,
-        Double picoDeviceLatitude,
-        Double picoDeviceLongitude
+import java.util.Date;
+
+public record AQDRealtimeRequestDto(
+        @NotNull
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        Date createAt,
+
+        @NotNull Double pm25Value,
+        @NotNull Integer pm25Level,
+        @NotNull Double pm10Value,
+        @NotNull Integer pm10Level,
+        @NotNull Double temperature,
+        @NotNull Integer temperatureLevel,
+        @NotNull Double humidity,
+        @NotNull Integer humidityLevel,
+        @NotNull Double co2Value,
+        @NotNull Integer co2Level,
+        @NotNull Double vocValue,
+        @NotNull Integer vocLevel,
+        @NotNull Double picoDeviceLatitude,
+        @NotNull Double picoDeviceLongitude
 ) {
     public AirQualityData toEntity(User user) {
         AirQualityData entity = new AirQualityData();
+        entity.setCreatedAt(this.createAt);
         entity.setAirQualityDataItem(
                 AirQualityDataItem.builder()
                         .pm25Value(pm25Value)

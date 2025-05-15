@@ -6,7 +6,6 @@ import com.monorama.iot_server.domain.embedded.AirQualityDataFlag;
 import com.monorama.iot_server.domain.embedded.HealthDataFlag;
 import com.monorama.iot_server.domain.embedded.PersonalInfoFlag;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public record ProjectDetailResponseDto(
