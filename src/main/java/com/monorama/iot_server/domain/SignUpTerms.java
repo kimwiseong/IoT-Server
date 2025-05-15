@@ -1,17 +1,17 @@
 package com.monorama.iot_server.domain;
 
 import com.monorama.iot_server.domain.type.ServiceType;
-import com.monorama.iot_server.domain.type.TermsType;
+import com.monorama.iot_server.domain.type.SignUpTermsType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "terms_tb")
+@Table(name = "sign_up_terms_tb")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Terms {
+public class SignUpTerms {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class Terms {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "terms_type", nullable = false)
-    private TermsType type;
+    private SignUpTermsType type;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "service_type", nullable = false)
