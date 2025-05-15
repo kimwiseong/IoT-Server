@@ -11,32 +11,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class PersonalInfoFlag {
 
-    @Column(name = "name_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean name;
+    @Column(name = "name_flag", nullable = false)
+    private Boolean name = false;
 
-    @Column(name = "email_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean email;
+    @Column(name = "email_flag", nullable = false)
+    private Boolean email = false;
 
-    @Column(name = "gender_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean gender;
+    @Column(name = "gender_flag", nullable = false)
+    private Boolean gender = false;
 
-    @Column(name = "national_code_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean nationalCode;
+    @Column(name = "national_code_flag", nullable = false)
+    private Boolean nationalCode = false;
 
-    @Column(name = "phone_number_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean phoneNumber;
+    @Column(name = "phone_number_flag", nullable = false)
+    private Boolean phoneNumber = false;
 
-    @Column(name = "date_of_birth_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean dateOfBirth;
+    @Column(name = "date_of_birth_flag", nullable = false)
+    private Boolean dateOfBirth = false;
 
-    @Column(name = "blood_type_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean bloodType;
+    @Column(name = "blood_type_flag", nullable = false)
+    private Boolean bloodType = false;
 
-    @Column(name = "height_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean height;
+    @Column(name = "height_flag", nullable = false)
+    private Boolean height = false;
 
-    @Column(name = "weight_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean weight;
+    @Column(name = "weight_flag", nullable = false)
+    private Boolean weight = false;
 
     public void updateBy(PersonalInfoFlag projectFlag) {
         if (projectFlag.name) this.name = true;
@@ -50,5 +50,3 @@ public class PersonalInfoFlag {
         if (projectFlag.weight) this.weight = true;
     }
 }
-
-

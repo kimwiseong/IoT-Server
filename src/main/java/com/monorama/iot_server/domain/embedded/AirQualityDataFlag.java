@@ -11,47 +11,47 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class AirQualityDataFlag {
 
-    @Column(name = "pm25_value_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean pm25Value;
+    @Column(name = "pm25_value_flag", nullable = false)
+    private Boolean pm25Value = false;
 
-    @Column(name = "pm25_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean pm25Level;
+    @Column(name = "pm25_level_flag", nullable = false)
+    private Boolean pm25Level = false;
 
-    @Column(name = "pm10_value_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean pm10Value;
+    @Column(name = "pm10_value_flag", nullable = false)
+    private Boolean pm10Value = false;
 
-    @Column(name = "pm10_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean pm10Level;
+    @Column(name = "pm10_level_flag", nullable = false)
+    private Boolean pm10Level = false;
 
-    @Column(name = "temperature_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean temperature;
+    @Column(name = "temperature_flag", nullable = false)
+    private Boolean temperature = false;
 
-    @Column(name = "temperature_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean temperatureLevel;
+    @Column(name = "temperature_level_flag", nullable = false)
+    private Boolean temperatureLevel = false;
 
-    @Column(name = "humidity_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean humidity;
+    @Column(name = "humidity_flag", nullable = false)
+    private Boolean humidity = false;
 
-    @Column(name = "humidity_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean humidityLevel;
+    @Column(name = "humidity_level_flag", nullable = false)
+    private Boolean humidityLevel = false;
 
-    @Column(name = "co2_value_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean co2Value;
+    @Column(name = "co2_value_flag", nullable = false)
+    private Boolean co2Value = false;
 
-    @Column(name = "co2_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean co2Level;
+    @Column(name = "co2_level_flag", nullable = false)
+    private Boolean co2Level = false;
 
-    @Column(name = "voc_value_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean vocValue;
+    @Column(name = "voc_value_flag", nullable = false)
+    private Boolean vocValue = false;
 
-    @Column(name = "voc_level_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean vocLevel;
+    @Column(name = "voc_level_flag", nullable = false)
+    private Boolean vocLevel = false;
 
-    @Column(name = "pico_device_latitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean picoDeviceLatitude;
+    @Column(name = "pico_device_latitude_flag", nullable = false)
+    private Boolean picoDeviceLatitude = false;
 
-    @Column(name = "pico_device_longitude_flag", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private Boolean picoDeviceLongitude;
+    @Column(name = "pico_device_longitude_flag", nullable = false)
+    private Boolean picoDeviceLongitude = false;
 
     public void updateBy(AirQualityDataFlag projectFlag) {
         if (projectFlag.pm25Value) this.pm25Value = true;
@@ -69,5 +69,4 @@ public class AirQualityDataFlag {
         if (projectFlag.picoDeviceLatitude) this.picoDeviceLatitude = true;
         if (projectFlag.picoDeviceLongitude) this.picoDeviceLongitude = true;
     }
-
 }

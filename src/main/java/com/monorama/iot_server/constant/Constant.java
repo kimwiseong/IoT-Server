@@ -11,15 +11,8 @@ public class Constant {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final List<String> NO_NEED_AUTH_URLS = List.of(
-            "/auth/register/basic",
-            "/auth/login",
-            "/login/oauth2/code/kakao",
-            "/oauth2/authorization/kakao",
             "/login/oauth2/code/google",
             "/oauth2/authorization/google",
-            "/login/oauth2/code/naver",
-            "/oauth2/authorization/naver",
-            "/auth/refresh",
             "/favicon.ico"
     );
 }

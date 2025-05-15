@@ -82,8 +82,13 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
-    public void register(PersonalInfoItem personalInfo) {
+    public void register(PersonalInfoItem personalInfo, ERole role) {
         this.personalInfo = personalInfo;
+        this.role = role;
+    }
+
+    public void updateRoleToBoth() {
+        this.role = ERole.BOTH_USER;
     }
 
     private void setUserDataPermission(UserDataPermission userDataPermission) {
