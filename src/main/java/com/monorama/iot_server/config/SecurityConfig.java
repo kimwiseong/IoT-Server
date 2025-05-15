@@ -3,6 +3,7 @@ package com.monorama.iot_server.config;
 import com.monorama.iot_server.constant.Constant;
 import com.monorama.iot_server.security.JwtAuthEntryPoint;
 import com.monorama.iot_server.security.JwtAuthenticationProvider;
+import com.monorama.iot_server.security.converter.CustomRequestEntityConverter;
 import com.monorama.iot_server.security.filter.JwtAuthenticationFilter;
 import com.monorama.iot_server.security.filter.JwtExceptionFilter;
 import com.monorama.iot_server.security.handler.*;
@@ -10,6 +11,7 @@ import com.monorama.iot_server.security.service.CustomOAuth2UserService;
 import com.monorama.iot_server.security.service.CustomUserDetailService;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,15 +19,19 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
     private final DefaultSuccessHandler defaultSuccessHandler;
-    private final DefaultFaiureHandler defaultFailureHandler;
+    private final DefaultFailureHandler defaultFailureHandler;
 
     private final CustomUserDetailService customUserDetailService;
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -41,6 +47,14 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
+    private final CustomRequestEntityConverter customRequestEntityConverter;
+
+    @Bean
+    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
+        accessTokenResponseClient.setRequestEntityConverter(customRequestEntityConverter);
+        return accessTokenResponseClient;
+    }
 
     @Bean
     protected SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
@@ -62,10 +76,13 @@ public class SecurityConfig {
                 .oauth2Login(
                         configurer ->
                                 configurer
+                                        .tokenEndpoint(token ->
+                                                token.accessTokenResponseClient(accessTokenResponseClient()))
                                         .successHandler(oAuth2LoginSuccessHandler)
                                         .failureHandler(oAuth2LoginFailureHandler)
                                         .userInfoEndpoint(userInfoEndpoint ->
                                                 userInfoEndpoint.userService(customOAuth2UserService))
+
                 )
                 .logout(configurer ->
                         configurer
@@ -80,9 +97,9 @@ public class SecurityConfig {
                                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 )
 
-
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, new JwtAuthenticationProvider(customUserDetailService)), LogoutFilter.class)
                 .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class)
                 .getOrBuild();
     }
+
 }

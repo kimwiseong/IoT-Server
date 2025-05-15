@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Builder
+@Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserPrincipal implements UserDetails, OAuth2User {
     @Getter private final Long id;      // 유저 정보 식별
@@ -25,6 +27,7 @@ public class UserPrincipal implements UserDetails, OAuth2User {
     private final Map<String, Object> attributes;   // OAuth2User 에서 사용할 정보 넣을 곳
 
     public static UserPrincipal create(UserRepository.UserSecurityForm form) {
+        log.info("Creating user principal: {}", form);
         return UserPrincipal.builder()
                 .id(form.getId())
                 .role(form.getRole())

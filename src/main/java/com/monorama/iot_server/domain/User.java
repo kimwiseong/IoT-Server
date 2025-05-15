@@ -29,7 +29,7 @@ public class User {
     private String socialId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "provider")
+    @Column(name = "provider", length = 10)
     private EProvider provider;
 
     @Column(name = "refresh_token")
