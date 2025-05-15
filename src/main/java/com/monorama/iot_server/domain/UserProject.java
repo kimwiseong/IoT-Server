@@ -1,10 +1,14 @@
 package com.monorama.iot_server.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
 @Entity
+@NoArgsConstructor
 @Table(name = "user_project_tb")
 public class UserProject {
 
@@ -14,8 +18,8 @@ public class UserProject {
     private Long id;
 
     /*** basic information ***/
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", columnDefinition = "DATETIME(0)")
     private Date createdAt;
 
     /*** mapping information ***/
@@ -28,13 +32,21 @@ public class UserProject {
     private Project project;
 
     /*** business logic ***/
-    private void setUser(User user) {
+//    public static UserProject create(User user, Project project) {
+//        UserProject userProject = new UserProject();
+//        userProject.user = user;
+//        userProject.project = project;
+//
+//        user.getUserProjectList().add(userProject);
+//        project.getUserProjectList().add(userProject);
+//
+//        return userProject;
+//    }
+
+    @Builder
+    public UserProject(User user, Project project) {
         this.user = user;
-        user.getUserProjectList().add(this);
+        this.project = project;
     }
 
-    private void setProject(Project project) {
-        this.project = project;
-        project.getUserProjectList().add(this);
-    }
 }
