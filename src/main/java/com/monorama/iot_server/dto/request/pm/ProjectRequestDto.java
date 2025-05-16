@@ -1,16 +1,30 @@
 package com.monorama.iot_server.dto.request.pm;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.monorama.iot_server.domain.AirMetaDataItem;
+import com.monorama.iot_server.domain.Project;
+import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.domain.embedded.*;
+import com.monorama.iot_server.domain.type.ProjectType;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 public record ProjectRequestDto(
         @NotNull String projectTitle,
         @NotNull Integer participant,
         @NotNull String description,
-        @NotNull String projectType,
+        @NotNull ProjectType projectType,
+
+        String termsOfPolicy,
+        String privacyPolicy,
+        String healthDataConsent,
+        String airDataConsent,
+        String localDataTermsOfService,
 
         @NotNull
         @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
@@ -25,6 +39,7 @@ public record ProjectRequestDto(
 
         @NotNull Boolean email,
         @NotNull Boolean gender,
+        @NotNull Boolean nationalCode,
         @NotNull Boolean phoneNumber,
         @NotNull Boolean dateOfBirth,
         @NotNull Boolean bloodType,
@@ -62,7 +77,84 @@ public record ProjectRequestDto(
         @NotNull Boolean picoDeviceLatitude,
         @NotNull Boolean picoDeviceLongitude,
 
-        List<AirMetaDataItemRequestDto> airMetaDataItemRequestDtoList
+        List<AirMetaDataItemRequestDto> airMetaDataItemList
 ) {
+        public Project toEntity(User user) {
 
+                log.info("airMetaDataItemList = {}", airMetaDataItemList);
+                PersonalInfoFlag personalInfoFlag = PersonalInfoFlag.builder()
+                        .name(name)
+                        .email(email)
+                        .gender(gender)
+                        .nationalCode(nationalCode)
+                        .phoneNumber(phoneNumber)
+                        .dateOfBirth(dateOfBirth)
+                        .bloodType(bloodType)
+                        .height(height)
+                        .weight(weight)
+                        .build();
+
+                HealthDataFlag healthDataFlag = HealthDataFlag.builder()
+                        .stepCount(stepCount)
+                        .runningSpeed(runningSpeed)
+                        .basalEnergyBurned(basalEnergyBurned)
+                        .activeEnergyBurned(activeEnergyBurned)
+                        .sleepAnalysis(sleepAnalysis)
+                        .heartRate(heartRate)
+                        .oxygenSaturation(oxygenSaturation)
+                        .bloodPressureSystolic(bloodPressureSystolic)
+                        .bloodPressureDiastolic(bloodPressureDiastolic)
+                        .respiratoryRate(respiratoryRate)
+                        .bodyTemperature(bodyTemperature)
+                        .ecgData(ecgData)
+                        .watchDeviceLatitude(watchDeviceLatitude)
+                        .watchDeviceLongitude(watchDeviceLongitude)
+                        .build();
+
+                AirQualityDataFlag airQualityDataFlag = AirQualityDataFlag.builder()
+                        .pm25Value(pm25Value)
+                        .pm25Level(pm25Level)
+                        .pm10Value(pm10Value)
+                        .pm10Level(pm10Level)
+                        .temperature(temperature)
+                        .temperatureLevel(temperatureLevel)
+                        .humidity(humidity)
+                        .humidityLevel(humidityLevel)
+                        .co2Value(co2Value)
+                        .co2Level(co2Level)
+                        .vocValue(vocValue)
+                        .vocLevel(vocLevel)
+                        .picoDeviceLatitude(picoDeviceLatitude)
+                        .picoDeviceLongitude(picoDeviceLongitude)
+                        .build();
+
+                Project project = Project.builder()
+                        .projectType(projectType)
+                        .title(projectTitle)
+                        .participant(participant)
+                        .startDate(startDate)
+                        .endDate(endDate)
+                        .description(description)
+                        .termsOfPolicy(termsOfPolicy)
+                        .privacyPolicy(privacyPolicy)
+                        .healthDataConsent(healthDataConsent)
+                        .airDataConsent(airDataConsent)
+                        .localDataTermsOfService(localDataTermsOfService)
+                        .personalInfoFlag(personalInfoFlag)
+                        .healthDataFlag(healthDataFlag)
+                        .airQualityDataFlag(airQualityDataFlag)
+                        .build();
+
+                project.setUser(user);
+
+                Optional.ofNullable(airMetaDataItemList()).ifPresent(list -> list.forEach(airMetaDataItem -> {
+                        AirMetaDataItem item = AirMetaDataItem.builder()
+                                .dataName(airMetaDataItem.dataName())
+                                .dataType(airMetaDataItem.dataType())
+                                .build();
+                        item.setProject(project); // 관계 설정
+                }));
+
+                return project;
+        }
 }

@@ -27,8 +27,9 @@ public class PMController {
     }
 
     @PostMapping("/projects")
-    public ResponseDto<?> createProject(@UserId Long userId, @RequestBody ProjectRequestDto projectRequestDto) {
-        return ResponseDto.ok(null);
+    public ResponseDto<?> saveProject(@UserId Long userId, @RequestBody ProjectRequestDto projectRequestDto) {
+        pmService.saveProject(userId, projectRequestDto);
+        return ResponseDto.created(null);
     }
 
 }
