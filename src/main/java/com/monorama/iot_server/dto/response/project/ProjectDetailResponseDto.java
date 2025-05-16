@@ -12,6 +12,7 @@ public record ProjectDetailResponseDto(
         String projectTitle,
         Integer participant,
         String description,
+        String projectType,
 
         @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone = "Asia/Seoul")
         Date startDate,
@@ -70,6 +71,7 @@ public record ProjectDetailResponseDto(
                 project.getTitle(),
                 project.getParticipant(),
                 project.getDescription(),
+                project.getProjectType().toString(),
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getCreatedAt(),

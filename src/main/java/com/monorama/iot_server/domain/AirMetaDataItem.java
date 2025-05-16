@@ -1,5 +1,6 @@
 package com.monorama.iot_server.domain;
 
+import com.monorama.iot_server.domain.type.DataType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -21,7 +22,8 @@ public class AirMetaDataItem {
     private String dataName;
 
     @Column(name = "data_type")
-    private String dataType;
+    @Enumerated(EnumType.STRING)
+    private DataType dataType;
 
     /*** mapping information ***/
     @ManyToOne(fetch = FetchType.LAZY)

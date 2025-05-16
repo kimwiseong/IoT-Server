@@ -2,7 +2,8 @@ package com.monorama.iot_server.controller.pm;
 
 import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.dto.ResponseDto;
-import com.monorama.iot_server.dto.request.project.ProjectRequestDto;
+import com.monorama.iot_server.dto.request.pm.ProjectRequestDto;
+import com.monorama.iot_server.dto.response.project.ProjectDetailResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectListForPMResponseDto;
 import com.monorama.iot_server.service.pm.PMService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,13 @@ public class PMController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public ResponseDto<?> getProjectDetails(@PathVariable("projectId") Long projectId) {
-        return null;
+    public ResponseDto<ProjectDetailResponseDto> getProjectDetail(@PathVariable Long projectId) {
+        return ResponseDto.ok(pmService.getProjectDetail(projectId));
     }
 
     @PostMapping("/projects")
-    public ResponseDto<?> createProject(@RequestBody ProjectRequestDto projectRequestDto) {
-        return null;
+    public ResponseDto<?> createProject(@UserId Long userId, @RequestBody ProjectRequestDto projectRequestDto) {
+        return ResponseDto.ok(null);
     }
 
 }
