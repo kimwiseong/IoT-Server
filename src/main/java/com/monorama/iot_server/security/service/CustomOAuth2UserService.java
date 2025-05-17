@@ -3,6 +3,8 @@ package com.monorama.iot_server.security.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.exception.CommonException;
+import com.monorama.iot_server.exception.ErrorCode;
 import com.monorama.iot_server.repository.UserRepository;
 import com.monorama.iot_server.security.info.OAuth2UserInfo;
 import com.monorama.iot_server.security.info.OAuth2UserInfoFactory;
@@ -16,6 +18,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -38,6 +41,8 @@ import java.util.List;
 @Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
+    @Value("${apple.public-key-url}")
+    private String publicKeyUrl;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -95,7 +100,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             HttpResponse<String> response;
             try (HttpClient client = HttpClient.newHttpClient()) {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://appleid.apple.com/auth/keys"))
+                        .uri(URI.create(publicKeyUrl))
                         .GET()
                         .build();
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -107,13 +112,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .toList();
 
             if (matches.isEmpty()) {
-                throw new IllegalStateException("No matching Apple public key found for kid=" + kid);
+                throw new CommonException(ErrorCode.NO_MATCH_APPLE_PUBLIC_KEY_ERROR);
             }
 
             return matches.getFirst().toRSAKey().toRSAPublicKey();
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load or parse Apple public key", e);
+            throw new CommonException(ErrorCode.FAILED_LOAD_OR_PARSE_APPLE_PUBLIC_KEY_ERROR);
         }
     }
 }
