@@ -7,13 +7,11 @@ import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.*;
 import com.monorama.iot_server.domain.type.ProjectType;
 import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 public record ProjectRequestDto(
         @NotNull String projectTitle,
         @NotNull Integer participant,
@@ -81,7 +79,6 @@ public record ProjectRequestDto(
 ) {
         public Project toEntity(User user) {
 
-                log.info("airMetaDataItemList = {}", airMetaDataItemList);
                 PersonalInfoFlag personalInfoFlag = PersonalInfoFlag.builder()
                         .name(name)
                         .email(email)
@@ -152,7 +149,7 @@ public record ProjectRequestDto(
                                 .dataName(airMetaDataItem.dataName())
                                 .dataType(airMetaDataItem.dataType())
                                 .build();
-                        item.setProject(project); // 관계 설정
+                        item.setProject(project);
                 }));
 
                 return project;

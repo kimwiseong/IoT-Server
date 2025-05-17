@@ -33,7 +33,7 @@ public class AirMetaDataItem {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToMany(mappedBy = "airMetaDataItem")
+    @OneToMany(mappedBy = "airMetaDataItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AirMetaData> airMetaDataList = new ArrayList<>();
 
     @Builder

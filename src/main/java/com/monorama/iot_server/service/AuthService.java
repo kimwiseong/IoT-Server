@@ -7,7 +7,7 @@ import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
-import com.monorama.iot_server.repository.UserDataPermissonRepository;
+import com.monorama.iot_server.repository.UserDataPermissionRepository;
 import com.monorama.iot_server.repository.UserRepository;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final UserDataPermissonRepository userDataPermissonRepository;
+    private final UserDataPermissionRepository userDataPermissonRepository;
     private final JwtUtil jwtUtil;
 
     @Transactional
