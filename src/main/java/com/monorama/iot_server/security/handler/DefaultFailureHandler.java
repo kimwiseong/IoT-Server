@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class DefaultFaiureHandler extends AbstractAuthenticationFailure implements AuthenticationFailureHandler {
+public class DefaultFailureHandler extends AbstractAuthenticationFailure implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(
             HttpServletRequest request,

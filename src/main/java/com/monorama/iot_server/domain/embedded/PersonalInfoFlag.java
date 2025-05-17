@@ -3,6 +3,7 @@ package com.monorama.iot_server.domain.embedded;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +38,19 @@ public class PersonalInfoFlag {
 
     @Column(name = "weight_flag", nullable = false)
     private Boolean weight = false;
+
+    @Builder
+    public PersonalInfoFlag(Boolean name, Boolean email, Boolean gender, Boolean nationalCode, Boolean phoneNumber, Boolean dateOfBirth, Boolean bloodType, Boolean height, Boolean weight) {
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.nationalCode = nationalCode;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.bloodType = bloodType;
+        this.height = height;
+        this.weight = weight;
+    }
 
     public void updateBy(PersonalInfoFlag projectFlag) {
         if (projectFlag.name) this.name = true;

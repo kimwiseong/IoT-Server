@@ -3,6 +3,7 @@ package com.monorama.iot_server.domain.embedded;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -52,6 +53,24 @@ public class AirQualityDataFlag {
 
     @Column(name = "pico_device_longitude_flag", nullable = false)
     private Boolean picoDeviceLongitude = false;
+
+    @Builder
+    public AirQualityDataFlag(Boolean pm25Value, Boolean pm25Level, Boolean pm10Value, Boolean pm10Level, Boolean temperature, Boolean temperatureLevel, Boolean humidity, Boolean humidityLevel, Boolean co2Value, Boolean co2Level, Boolean vocValue, Boolean vocLevel, Boolean picoDeviceLatitude, Boolean picoDeviceLongitude) {
+        this.pm25Value = pm25Value;
+        this.pm25Level = pm25Level;
+        this.pm10Value = pm10Value;
+        this.pm10Level = pm10Level;
+        this.temperature = temperature;
+        this.temperatureLevel = temperatureLevel;
+        this.humidity = humidity;
+        this.humidityLevel = humidityLevel;
+        this.co2Value = co2Value;
+        this.co2Level = co2Level;
+        this.vocValue = vocValue;
+        this.vocLevel = vocLevel;
+        this.picoDeviceLatitude = picoDeviceLatitude;
+        this.picoDeviceLongitude = picoDeviceLongitude;
+    }
 
     public void updateBy(AirQualityDataFlag projectFlag) {
         if (projectFlag.pm25Value) this.pm25Value = true;

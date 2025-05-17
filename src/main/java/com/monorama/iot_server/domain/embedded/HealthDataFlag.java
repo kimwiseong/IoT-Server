@@ -3,6 +3,7 @@ package com.monorama.iot_server.domain.embedded;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -52,6 +53,24 @@ public class HealthDataFlag {
 
     @Column(name = "watch_device_longitude_flag", nullable = false)
     private Boolean watchDeviceLongitude = false;
+
+    @Builder
+    public HealthDataFlag(Boolean stepCount, Boolean runningSpeed, Boolean basalEnergyBurned, Boolean activeEnergyBurned, Boolean sleepAnalysis, Boolean heartRate, Boolean oxygenSaturation, Boolean bloodPressureSystolic, Boolean bloodPressureDiastolic, Boolean respiratoryRate, Boolean bodyTemperature, Boolean ecgData, Boolean watchDeviceLatitude, Boolean watchDeviceLongitude) {
+        this.stepCount = stepCount;
+        this.runningSpeed = runningSpeed;
+        this.basalEnergyBurned = basalEnergyBurned;
+        this.activeEnergyBurned = activeEnergyBurned;
+        this.sleepAnalysis = sleepAnalysis;
+        this.heartRate = heartRate;
+        this.oxygenSaturation = oxygenSaturation;
+        this.bloodPressureSystolic = bloodPressureSystolic;
+        this.bloodPressureDiastolic = bloodPressureDiastolic;
+        this.respiratoryRate = respiratoryRate;
+        this.bodyTemperature = bodyTemperature;
+        this.ecgData = ecgData;
+        this.watchDeviceLatitude = watchDeviceLatitude;
+        this.watchDeviceLongitude = watchDeviceLongitude;
+    }
 
     public void updateBy(HealthDataFlag projectFlag) {
         if (projectFlag.stepCount) this.stepCount = true;
