@@ -3,6 +3,9 @@ package com.monorama.iot_server.exception;
 import com.monorama.iot_server.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +19,24 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseDto<?> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("Handler in AccessDeniedException Error Message = " + e.getMessage());
+        return ResponseDto.fail(new CommonException(ErrorCode.ACCESS_DENIED_ERROR));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseDto<?> handleAuthenticationException(AuthenticationException e) {
+        log.error("Handler in AuthenticationException Error Message = " + e.getMessage());
+        return ResponseDto.fail(new CommonException(ErrorCode.INVALID_TOKEN_ERROR));
+    }
+
+    @ExceptionHandler(OAuth2AuthenticationException.class)
+    public ResponseDto<?> handleOAuth2AuthenticationException(OAuth2AuthenticationException e) {
+        log.error("Handler in OAuth2AuthenticationException Error Message = " + e.getMessage());
+        return ResponseDto.fail(new CommonException(ErrorCode.SOCIAL_LOGIN_ERROR));
+    }
 
     @ExceptionHandler({HttpMediaTypeNotSupportedException.class, MultipartException.class})
     public ResponseDto<?> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
@@ -70,4 +91,5 @@ public class GlobalExceptionHandler {
         log.error("Handler in Exception Error Message = " + e.getMessage(), e);
         return ResponseDto.fail(new CommonException(ErrorCode.SERVER_ERROR));
     }
+
 }

@@ -28,17 +28,22 @@ public enum ErrorCode {
     FAILURE_LOGIN(40106, HttpStatus.UNAUTHORIZED, "로그인에 실패하였습니다."),
     FAILURE_LOGOUT(40107, HttpStatus.UNAUTHORIZED, "로그아웃에 실패하였습니다."),
     TOKEN_UNKNOWN_ERROR(40106, HttpStatus.UNAUTHORIZED, "알 수 없는 토큰입니다."),
+    NO_MATCH_APPLE_PUBLIC_KEY_ERROR(40107, HttpStatus.UNAUTHORIZED, "No matching Apple public key found for kid"),
+    FAILED_LOAD_OR_PARSE_APPLE_PUBLIC_KEY_ERROR(40108, HttpStatus.UNAUTHORIZED, "Failed to load or parse Apple public key"),
+    SOCIAL_LOGIN_ERROR(40109, HttpStatus.UNAUTHORIZED, "Social Login Failed"),
 
     FILE_UPLOAD_ERROR(42201, HttpStatus.UNPROCESSABLE_ENTITY, "파일 업로드에 실패하였습니다."),
 
     ACCESS_DENIED_ERROR(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
-    NOT_FOUND_DIARY(40402,HttpStatus.NOT_FOUND,"해당 일기가 존재하지 않습니다."),
+    NOT_FOUND_METADATA_ITEM(40402,HttpStatus.NOT_FOUND,"해당 메타데이터 항목이 존재하지 않습니다."),
     NOT_FOUND_PROJECT(40403, HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."),
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
     ALREADY_JOINED_PROJECT(50001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 가입된 프로젝트입니다."),
-    PROJECT_NOT_AVAILABLE(50002, HttpStatus.INTERNAL_SERVER_ERROR, "해당 프로젝트는 현재 참여할 수 없습니다.");
+    PROJECT_NOT_AVAILABLE(50002, HttpStatus.INTERNAL_SERVER_ERROR, "해당 프로젝트는 현재 참여할 수 없습니다."),
+    ILLEGAL_STATE(50003, HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 상태입니다."),
+    RUNTIME_EXCEPTION(50004, HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다.");
 
 
 
