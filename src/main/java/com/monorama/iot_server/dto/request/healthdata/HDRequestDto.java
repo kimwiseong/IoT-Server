@@ -1,10 +1,18 @@
 package com.monorama.iot_server.dto.request.healthdata;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.HealthData;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.HealthDataItem;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Date;
 
 public record HDRequestDto(
+        @NotNull
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        Date createdAt,
+
         Double stepCount,
         Double runningSpeed,
         Double basalEnergyBurned,
@@ -39,6 +47,7 @@ public record HDRequestDto(
                 .build();
 
         return HealthData.builder()
+                .createdAt(createdAt)
                 .user(user)
                 .healthDataItem(item)
                 .build();
