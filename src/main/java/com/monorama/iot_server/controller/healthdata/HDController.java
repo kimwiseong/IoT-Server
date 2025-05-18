@@ -2,9 +2,9 @@ package com.monorama.iot_server.controller.healthdata;
 
 import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.dto.ResponseDto;
-import com.monorama.iot_server.dto.request.HealthDataRequestDto;
-import com.monorama.iot_server.dto.request.HealthDataSyncRequestDto;
-import com.monorama.iot_server.service.healthdata.HealthDataService;
+import com.monorama.iot_server.dto.request.healthdata.HDRequestDto;
+import com.monorama.iot_server.dto.request.healthdata.HDSyncRequestDto;
+import com.monorama.iot_server.service.healthdata.HDService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/health-data")
 @RequiredArgsConstructor
-public class HealthDataController {
+public class HDController {
 
-    private final HealthDataService service;
+    private final HDService service;
 
     @PostMapping("/realtime")
     public ResponseDto<?> saveRealtimeHealthData(
             @UserId Long userId,
-            @RequestBody @Valid HealthDataRequestDto request
+            @RequestBody @Valid HDRequestDto request
     ) {
         service.saveRealtime(userId, request);
         return ResponseDto.ok(null);
@@ -28,7 +28,7 @@ public class HealthDataController {
     @PostMapping("/sync")
     public ResponseDto<?> saveSyncHealthData(
             @UserId Long userId,
-            @RequestBody @Valid HealthDataSyncRequestDto request
+            @RequestBody @Valid HDSyncRequestDto request
     ) {
         service.saveSync(userId, request);
         return ResponseDto.ok(null);

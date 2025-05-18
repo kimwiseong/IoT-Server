@@ -4,16 +4,16 @@ import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.dto.ResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectDetailResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectListResponseDto;
-import com.monorama.iot_server.service.healthdata.HealthDataProjectService;
+import com.monorama.iot_server.service.healthdata.HDProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/health-data")
 @RequiredArgsConstructor
-public class HealthDataProjectController {
+public class HDProjectController {
 
-    private final HealthDataProjectService projectService;
+    private final HDProjectService projectService;
 
     @GetMapping("/projects")
     public ResponseDto<ProjectListResponseDto> getAllProjects() {

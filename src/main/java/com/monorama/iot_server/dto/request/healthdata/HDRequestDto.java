@@ -1,10 +1,10 @@
-package com.monorama.iot_server.dto.request;
+package com.monorama.iot_server.dto.request.healthdata;
 
 import com.monorama.iot_server.domain.HealthData;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.HealthDataItem;
 
-public record HealthDataRequestDto(
+public record HDRequestDto(
         Double stepCount,
         Double runningSpeed,
         Double basalEnergyBurned,
