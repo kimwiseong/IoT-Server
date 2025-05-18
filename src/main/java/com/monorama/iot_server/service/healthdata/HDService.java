@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class HDService {
@@ -19,10 +21,16 @@ public class HDService {
     private final HDRepository HDRepository;
 
     @Transactional
-    public void saveRealtime(Long userId, HDRequestDto dto) {
+    public String saveRealtime(Long userId, HDRequestDto dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        List<String> missingFields = dto.getMissingFields(user);
         HDRepository.save(dto.toEntity(user));
+
+        return missingFields.isEmpty() ?
+                "모든 필드가 정상적으로 저장되었습니다." :
+                "누락된 필드: " + missingFields;
     }
 
 

@@ -21,8 +21,7 @@ public class HDController {
             @UserId Long userId,
             @RequestBody @Valid HDRequestDto request
     ) {
-        service.saveRealtime(userId, request);
-        return ResponseDto.ok(null);
+        return ResponseDto.ok(service.saveRealtime(userId, request));
     }
 
     @PostMapping("/sync")

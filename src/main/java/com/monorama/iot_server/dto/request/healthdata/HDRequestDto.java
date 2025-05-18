@@ -6,7 +6,9 @@ import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.embedded.HealthDataItem;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public record HDRequestDto(
         @NotNull
@@ -52,4 +54,27 @@ public record HDRequestDto(
                 .healthDataItem(item)
                 .build();
     }
+
+    public List<String> getMissingFields(User user) {
+        List<String> missingFields = new ArrayList<>();
+        var flag = user.getUserDataPermission().getHealthDataFlag();
+
+        if (Boolean.TRUE.equals(flag.getStepCount()) && stepCount == null) missingFields.add("stepCount");
+        if (Boolean.TRUE.equals(flag.getRunningSpeed()) && runningSpeed == null) missingFields.add("runningSpeed");
+        if (Boolean.TRUE.equals(flag.getBasalEnergyBurned()) && basalEnergyBurned == null) missingFields.add("basalEnergyBurned");
+        if (Boolean.TRUE.equals(flag.getActiveEnergyBurned()) && activeEnergyBurned == null) missingFields.add("activeEnergyBurned");
+        if (Boolean.TRUE.equals(flag.getSleepAnalysis()) && sleepAnalysis == null) missingFields.add("sleepAnalysis");
+        if (Boolean.TRUE.equals(flag.getHeartRate()) && heartRate == null) missingFields.add("heartRate");
+        if (Boolean.TRUE.equals(flag.getOxygenSaturation()) && oxygenSaturation == null) missingFields.add("oxygenSaturation");
+        if (Boolean.TRUE.equals(flag.getBloodPressureSystolic()) && bloodPressureSystolic == null) missingFields.add("bloodPressureSystolic");
+        if (Boolean.TRUE.equals(flag.getBloodPressureDiastolic()) && bloodPressureDiastolic == null) missingFields.add("bloodPressureDiastolic");
+        if (Boolean.TRUE.equals(flag.getRespiratoryRate()) && respiratoryRate == null) missingFields.add("respiratoryRate");
+        if (Boolean.TRUE.equals(flag.getBodyTemperature()) && bodyTemperature == null) missingFields.add("bodyTemperature");
+        if (Boolean.TRUE.equals(flag.getEcgData()) && ecgData == null) missingFields.add("ecgData");
+        if (Boolean.TRUE.equals(flag.getWatchDeviceLatitude()) && watchDeviceLatitude == null) missingFields.add("watchDeviceLatitude");
+        if (Boolean.TRUE.equals(flag.getWatchDeviceLongitude()) && watchDeviceLongitude == null) missingFields.add("watchDeviceLongitude");
+
+        return missingFields;
+    }
+
 }
