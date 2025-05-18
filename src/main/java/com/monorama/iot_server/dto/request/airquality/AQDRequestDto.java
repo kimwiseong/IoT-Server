@@ -8,10 +8,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
-public record AQDRealtimeRequestDto(
+public record AQDRequestDto(
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-        Date createAt,
+        Date createdAt,
 
         @NotNull Double pm25Value,
         @NotNull Integer pm25Level,
@@ -30,7 +30,7 @@ public record AQDRealtimeRequestDto(
 ) {
     public AirQualityData toEntity(User user) {
         AirQualityData entity = new AirQualityData();
-        entity.setCreatedAt(this.createAt);
+        entity.setCreatedAt(this.createdAt);
         entity.setAirQualityDataItem(
                 AirQualityDataItem.builder()
                         .pm25Value(pm25Value)
