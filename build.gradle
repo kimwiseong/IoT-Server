@@ -23,11 +23,11 @@ repositories {
 }
 
 tasks.register('copyPrivate', Copy) {
-    copy {
-        from './IoT-Secret'
-        include "*.yml"
-        into 'src/main/resources'
-    }
+
+    from './IoT-Secret'
+    include "*.yml"
+    into 'src/main/resources'
+
 }
 
 tasks.named('processResources') {

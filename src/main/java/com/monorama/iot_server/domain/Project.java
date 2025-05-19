@@ -86,7 +86,7 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<UserProject> userProjectList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AirMetaDataItem> airMetaDataItemList = new ArrayList<>();
 
     @OneToMany(mappedBy = "project")
@@ -94,7 +94,20 @@ public class Project {
 
     /*** constructor ***/
     @Builder
-    public Project(ProjectType projectType, String title, Integer participant, Date startDate, Date endDate, String description, String termsOfPolicy, String privacyPolicy, String healthDataConsent, String airDataConsent, String localDataTermsOfService) {
+    public Project(ProjectType projectType,
+                   String title,
+                   Integer participant,
+                   Date startDate,
+                   Date endDate,
+                   String description,
+                   String termsOfPolicy,
+                   String privacyPolicy,
+                   String healthDataConsent,
+                   String airDataConsent,
+                   String localDataTermsOfService,
+                   PersonalInfoFlag personalInfoFlag,
+                   HealthDataFlag healthDataFlag,
+                   AirQualityDataFlag airQualityDataFlag) {
         this.projectType = projectType;
         this.title = title;
         this.participant = participant;
@@ -106,10 +119,13 @@ public class Project {
         this.healthDataConsent = healthDataConsent;
         this.airDataConsent = airDataConsent;
         this.localDataTermsOfService = localDataTermsOfService;
+        this.personalInfoFlag = personalInfoFlag;
+        this.healthDataFlag = healthDataFlag;
+        this.airQualityDataFlag = airQualityDataFlag;
     }
 
     /*** business logic ***/
-    private void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
         user.getProjectList().add(this);
     }

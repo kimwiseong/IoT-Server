@@ -87,7 +87,7 @@ public class JwtUtil implements InitializingBean {
         }
     }
 
-    public int getAccessTokenExpriration() {
+    public int getAccessTokenExpiration() {
         return ACCESS_EXPIRED_MS;
     }
 

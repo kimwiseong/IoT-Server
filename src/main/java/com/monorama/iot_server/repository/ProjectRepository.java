@@ -4,10 +4,12 @@ import com.monorama.iot_server.domain.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("""
     SELECT p FROM Project p
@@ -28,4 +30,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     """)
     Optional<Project> findActiveHealthProjectById(@Param("projectId") Long projectId);
 
+    @Query("""
+    SELECT p FROM Project p
+    WHERE p.user.id = :pmId
+    """)
+    List<Project> findAllByPMId(Long pmId);
 }
