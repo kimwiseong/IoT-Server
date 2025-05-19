@@ -11,6 +11,7 @@ import com.monorama.iot_server.repository.UserDataPermissionRepository;
 import com.monorama.iot_server.repository.UserRepository;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -94,6 +95,22 @@ public class AuthService {
         user.setRefreshToken(jwtTokenDto.getRefreshToken());
 
         return jwtTokenDto;
+    }
+
+    public JwtTokenDto refresh(String refreshToken, HttpServletRequest request) {
+        Long userId = jwtUtil.extractUserIdFromToken(refreshToken);
+
+        User user = userRepository.findUserByIdAndIsLoginAndRefreshTokenIsNotNull(userId, true)
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_TOKEN_ERROR));
+
+        if (!refreshToken.equals(user.getRefreshToken())) {
+            throw new CommonException(ErrorCode.TOKEN_TYPE_ERROR);
+        }
+
+        JwtTokenDto newTokens = jwtUtil.generateTokens(userId, user.getRole());
+        userRepository.updateRefreshTokenAndLoginStatus(userId, newTokens.getRefreshToken(), true);
+
+        return newTokens;
     }
 
 }

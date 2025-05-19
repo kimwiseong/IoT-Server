@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<UserSecurityForm> findByIdAndIsLoginAndRefreshTokenIsNotNull(Long id, boolean b);
+    Optional<User> findUserByIdAndIsLoginAndRefreshTokenIsNotNull(Long id, boolean b);
 
     Optional<UserSecurityForm> findByRefreshToken(String refreshToken);
 
