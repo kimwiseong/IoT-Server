@@ -19,8 +19,7 @@ public class AQDController {
     @PostMapping("/realtime")
     public ResponseDto<?> saveRealtime(@UserId Long userId,
                                        @Valid @RequestBody AQDRequestDto requestDto) {
-        airService.saveRealtime(userId, requestDto);
-        return ResponseDto.ok(null);
+        return ResponseDto.ok(airService.saveRealtime(userId, requestDto));
     }
 
     @PostMapping("/sync")
