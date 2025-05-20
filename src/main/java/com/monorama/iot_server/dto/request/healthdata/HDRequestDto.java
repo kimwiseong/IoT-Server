@@ -3,8 +3,12 @@ package com.monorama.iot_server.dto.request.healthdata;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.monorama.iot_server.domain.HealthData;
 import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.domain.embedded.HealthDataFlag;
 import com.monorama.iot_server.domain.embedded.HealthDataItem;
+import com.monorama.iot_server.exception.CommonException;
+import com.monorama.iot_server.exception.ErrorCode;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,8 +60,12 @@ public record HDRequestDto(
     }
 
     public List<String> getMissingFields(User user) {
+        if (user.getUserDataPermission() == null) {
+            throw new CommonException(ErrorCode.NOT_FOUND_RESOURCE);
+        }
+
         List<String> missingFields = new ArrayList<>();
-        var flag = user.getUserDataPermission().getHealthDataFlag();
+        HealthDataFlag flag = user.getUserDataPermission().getHealthDataFlag();
 
         if (Boolean.TRUE.equals(flag.getStepCount()) && stepCount == null) missingFields.add("stepCount");
         if (Boolean.TRUE.equals(flag.getRunningSpeed()) && runningSpeed == null) missingFields.add("runningSpeed");
