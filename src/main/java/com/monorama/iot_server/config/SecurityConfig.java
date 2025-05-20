@@ -3,7 +3,7 @@ package com.monorama.iot_server.config;
 import com.monorama.iot_server.constant.Constant;
 import com.monorama.iot_server.security.JwtAuthEntryPoint;
 import com.monorama.iot_server.security.JwtAuthenticationProvider;
-import com.monorama.iot_server.security.converter.CustomRequestEntityConverter;
+import com.monorama.iot_server.security.apple.CustomParameterConverter;
 import com.monorama.iot_server.security.filter.JwtAuthenticationFilter;
 import com.monorama.iot_server.security.filter.JwtExceptionFilter;
 import com.monorama.iot_server.security.handler.*;
@@ -19,9 +19,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.endpoint.RestClientAuthorizationCodeTokenResponseClient;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
@@ -47,12 +47,12 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
-    private final CustomRequestEntityConverter customRequestEntityConverter;
+    private final CustomParameterConverter customParameterConverter;
 
     @Bean
     public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
-        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient = new DefaultAuthorizationCodeTokenResponseClient();
-        accessTokenResponseClient.setRequestEntityConverter(customRequestEntityConverter);
+        RestClientAuthorizationCodeTokenResponseClient accessTokenResponseClient = new RestClientAuthorizationCodeTokenResponseClient();
+        accessTokenResponseClient.setParametersConverter(customParameterConverter);
         return accessTokenResponseClient;
     }
 
