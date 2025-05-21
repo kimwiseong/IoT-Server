@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HealthDataProjectService {
+public class HDProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;

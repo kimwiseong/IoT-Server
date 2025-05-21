@@ -3,7 +3,7 @@ package com.monorama.iot_server.controller.healthdata;
 import com.monorama.iot_server.domain.type.TermsType;
 import com.monorama.iot_server.dto.ResponseDto;
 import com.monorama.iot_server.dto.response.terms.TermsContentResponseDto;
-import com.monorama.iot_server.service.healthdata.HealthDataProjectService;
+import com.monorama.iot_server.service.healthdata.HDProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/health-data/{projectId}/terms")
-public class HealthDataProjectTermsController {
+public class HDProjectTermsController {
 
-    private final HealthDataProjectService projectService;
+    private final HDProjectService projectService;
 
     @GetMapping("/privacy-policy")
     public ResponseDto<TermsContentResponseDto> getPrivacyPolicy(@PathVariable Long projectId) {
