@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -30,60 +32,51 @@ public class AuthController {
     @PatchMapping("/register/pm")
     public ResponseDto<?> registerPM(@UserId Long userId, @RequestBody @Valid PMRegisterDto registerDto, HttpServletResponse response) {
         JwtTokenDto tokenDto = authService.registerPM(userId, registerDto);
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, tokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, tokenDto.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.created(tokenDto);
+        return handleAccessTokenAndSetCookie(tokenDto, response);
     }
 
     @PatchMapping("/register/air-quality-data")
     public ResponseDto<?> registerAQDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto, HttpServletResponse response) {
         JwtTokenDto tokenDto = authService.registerAQDUser(userId, registerDto);
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, tokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, tokenDto.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.created(tokenDto);
+        return handleAccessTokenAndSetCookie(tokenDto, response);
     }
 
     @PatchMapping("/register/air-quality-data/role")
     public ResponseDto<?> updateAQDToBoth(@UserId Long userId, HttpServletResponse response) {
         JwtTokenDto tokenDto = authService.updateAQDUserRole(userId);
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, tokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, tokenDto.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.created(tokenDto);
+        return handleAccessTokenAndSetCookie(tokenDto, response);
     }
 
     @PatchMapping("/register/health-data")
     public ResponseDto<?> registerHDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto, HttpServletResponse response) {
         JwtTokenDto tokenDto = authService.registerHDUser(userId, registerDto);
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, tokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, tokenDto.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.created(tokenDto);
+        return handleAccessTokenAndSetCookie(tokenDto, response);
     }
 
     @PatchMapping("/register/health-data/role")
     public ResponseDto<?> updateHDToBoth(@UserId Long userId, HttpServletResponse response) {
         JwtTokenDto tokenDto = authService.updateHDUserRole(userId);
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, tokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, tokenDto.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.created(tokenDto);
+        return handleAccessTokenAndSetCookie(tokenDto, response);
     }
 
     @PatchMapping("/refresh")
-    public ResponseDto<JwtTokenDto> refresh(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseDto<?> refresh(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = CookieUtil.getCookie(request, Constant.REAUTHORIZATION)
                 .map(Cookie::getValue)
-                .orElseThrow(()-> new CommonException(ErrorCode.TOKEN_UNKNOWN_ERROR));
+                .orElseThrow(() -> new CommonException(ErrorCode.TOKEN_UNKNOWN_ERROR));
 
         log.info("refresh token : {}", refreshToken);
         JwtTokenDto newTokens = authService.refresh(refreshToken, request);
+        return handleAccessTokenAndSetCookie(newTokens, response);
+    }
 
-        CookieUtil.addCookie(response, Constant.AUTHORIZATION, newTokens.getAccessToken());
-        CookieUtil.addSecureCookie(response, Constant.REAUTHORIZATION, newTokens.getRefreshToken(), jwtUtil.getWebRefreshTokenExpirationSecond());
-
-        return ResponseDto.ok(newTokens);
+    private ResponseDto<?> handleAccessTokenAndSetCookie(JwtTokenDto tokenDto, HttpServletResponse response) {
+        CookieUtil.addSecureCookie(
+                response,
+                Constant.REAUTHORIZATION,
+                tokenDto.getRefreshToken(),
+                jwtUtil.getWebRefreshTokenExpirationSecond()
+        );
+        return ResponseDto.created(Map.of("accessToken", tokenDto.getAccessToken()));
     }
 }

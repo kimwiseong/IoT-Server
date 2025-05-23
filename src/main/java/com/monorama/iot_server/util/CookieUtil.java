@@ -26,10 +26,15 @@ public class CookieUtil {
     }
 
     public static void addSecureCookie(HttpServletResponse response,String name, String value, Integer maxAge){
-        Cookie cookie = new Cookie(name,value);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
+//        Cookie cookie = new Cookie(name,value);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//        cookie.setMaxAge(maxAge);
+//        cookie.setSecure(true);
+//        response.addCookie(cookie);
+        response.setHeader("Set-Cookie", String.format(
+                "%s=%s; Path=/; Max-Age=%d; HttpOnly; Secure; SameSite=None",
+                name, value, maxAge
+        ));
     }
 }

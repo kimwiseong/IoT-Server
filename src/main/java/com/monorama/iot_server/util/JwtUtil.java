@@ -21,9 +21,10 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil implements InitializingBean {
-    private static final Integer ACCESS_EXPIRED_MS = 60 * 60 * 1000;
-    private static final Integer REFRESH_EXPIRED_MS = 7 * 24 * 60 * 60 * 1000;
-
+    @Value("${jwt.access-expiration-ms}")
+    private Integer ACCESS_EXPIRED_MS;
+    @Value("${jwt.refresh-expiration-ms}")
+    private Integer REFRESH_EXPIRED_MS;
     @Value("${jwt.secret}")
     private String secretKey;
     private Key key;
