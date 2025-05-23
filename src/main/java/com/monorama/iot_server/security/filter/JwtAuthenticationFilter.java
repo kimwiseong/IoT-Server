@@ -35,6 +35,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws JwtException, ServletException, IOException {
 
+        log.info("JwtAuthenticationFilter doFilterInternal");
+        log.info("request.getRequestURI() : {}", request.getRequestURI());
+        log.info("request.getHeader(Authorization) : {}", request.getHeader(Constant.AUTHORIZATION_HEADER));
+
         final String token = HeaderUtil.refineHeader(request,Constant.AUTHORIZATION_HEADER,Constant.BEARER_PREFIX)
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_TOKEN_ERROR));
 
