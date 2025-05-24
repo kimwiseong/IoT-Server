@@ -3,6 +3,7 @@ package com.monorama.iot_server.security.apple;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
 import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -43,7 +44,7 @@ public class AppleTokenVerifier {
                     .orElseThrow(() -> new CommonException(ErrorCode.NO_MATCH_APPLE_PUBLIC_KEY_ERROR));
 
             RSAKey rsaKey = (RSAKey) jwk;
-            if (!signedJWT.verify(new com.nimbusds.jose.crypto.RSASSAVerifier(rsaKey.toRSAPublicKey()))) {
+            if (!signedJWT.verify(new RSASSAVerifier(rsaKey.toRSAPublicKey()))) {
                 throw new CommonException(ErrorCode.INVALID_APPLE_TOKEN_SIGNATURE_ERROR);
             }
 
