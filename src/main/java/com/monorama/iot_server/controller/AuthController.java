@@ -4,6 +4,7 @@ import com.monorama.iot_server.annotation.UserId;
 import com.monorama.iot_server.constant.Constant;
 import com.monorama.iot_server.dto.JwtTokenDto;
 import com.monorama.iot_server.dto.ResponseDto;
+import com.monorama.iot_server.dto.request.auth.AppleLoginRequestDto;
 import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
@@ -28,6 +29,11 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
+
+    @PostMapping("/login/apple")
+    public ResponseDto<JwtTokenDto> loginWithAppleForApp(@Valid @RequestBody AppleLoginRequestDto appleLoginRequestDto) {
+        return ResponseDto.ok(authService.loginWithAppleForApp(appleLoginRequestDto));
+    }
 
     @PatchMapping("/register/pm")
     public ResponseDto<?> registerPM(@UserId Long userId, @RequestBody @Valid PMRegisterDto registerDto, HttpServletResponse response) {

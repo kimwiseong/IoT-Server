@@ -31,6 +31,10 @@ public enum ErrorCode {
     NO_MATCH_APPLE_PUBLIC_KEY_ERROR(40107, HttpStatus.UNAUTHORIZED, "No matching Apple public key found for kid"),
     FAILED_LOAD_OR_PARSE_APPLE_PUBLIC_KEY_ERROR(40108, HttpStatus.UNAUTHORIZED, "Failed to load or parse Apple public key"),
     SOCIAL_LOGIN_ERROR(40109, HttpStatus.UNAUTHORIZED, "Social Login Failed"),
+    INVALID_APPLE_TOKEN_SIGNATURE_ERROR(40110, HttpStatus.UNAUTHORIZED, "Invalid identity token signature"),
+    INVALID_APPLE_ISSUER_ERROR(40111, HttpStatus.UNAUTHORIZED, "Invalid apple issuer"),
+    APPLE_IDENTITY_TOKEN_EXPIRED_ERROR(40112, HttpStatus.UNAUTHORIZED, "Invalid identity token signature"),
+    APPLE_IDENTITY_TOKEN_VERIFICATION_ERROR(40113, HttpStatus.UNAUTHORIZED, "identity token verification failed"),
 
     FILE_UPLOAD_ERROR(42201, HttpStatus.UNPROCESSABLE_ENTITY, "파일 업로드에 실패하였습니다."),
 
