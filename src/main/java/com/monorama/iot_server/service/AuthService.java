@@ -29,6 +29,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final AppleTokenVerifier appleTokenVerifier;
 
+    @Transactional
     public JwtTokenDto loginWithAppleForApp(AppleLoginRequestDto appleLoginRequestDto) {
         String socialId = appleTokenVerifier.verifyAndGetUserId(appleLoginRequestDto.identityToken());
 
