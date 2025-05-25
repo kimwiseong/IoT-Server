@@ -19,6 +19,10 @@ public enum ErrorCode {
     MISSING_REQUEST_PARAMETER(40005, HttpStatus.BAD_REQUEST, "필수 요청 파라미터가 누락되었습니다."),
     METHOD_ARGUMENT_TYPE_MISMATCH(40006, HttpStatus.BAD_REQUEST, "요청 파라미터의 형태가 잘못되었습니다."),
 
+    UNKNOWN_NATIONAL_CODE_ERROR(40007, HttpStatus.BAD_REQUEST, "Unknown national code"),
+    UNKNOWN_BLOOD_TYPE_ERROR(40008, HttpStatus.BAD_REQUEST, "Unknown blood type"),
+    UNKNOWN_GENDER_ERROR(40008, HttpStatus.BAD_REQUEST, "Unknown gender"),
+
     EXPIRED_TOKEN_ERROR(40100, HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
     INVALID_TOKEN_ERROR(40101, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
     TOKEN_MALFORMED_ERROR(40102, HttpStatus.UNAUTHORIZED, "토큰이 올바르지 않습니다."),

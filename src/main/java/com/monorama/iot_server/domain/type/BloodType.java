@@ -1,5 +1,8 @@
 package com.monorama.iot_server.domain.type;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.monorama.iot_server.exception.CommonException;
+import com.monorama.iot_server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -13,4 +16,14 @@ public enum BloodType {
     public String toString() {
         return bloodType;
     }
+
+    @JsonCreator
+    public static BloodType from(String bloodType) {
+        for (BloodType bt : values()) {
+            if (bt.bloodType.equals(bloodType))
+                return bt;
+        }
+        throw new CommonException(ErrorCode.UNKNOWN_BLOOD_TYPE_ERROR);
+    }
+
 }

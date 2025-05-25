@@ -54,9 +54,8 @@ public class AuthController {
     }
 
     @PatchMapping("/register/health-data")
-    public ResponseDto<?> registerHDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto, HttpServletResponse response) {
-        JwtTokenDto tokenDto = authService.registerHDUser(userId, registerDto);
-        return handleAccessTokenAndSetCookie(tokenDto, response);
+    public ResponseDto<JwtTokenDto> registerHDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto) {
+        return ResponseDto.ok(authService.registerHDUser(userId, registerDto));
     }
 
     @PatchMapping("/register/health-data/role")
