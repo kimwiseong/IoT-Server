@@ -80,13 +80,7 @@ public class AuthService {
     public JwtTokenDto registerHDUser(Long userId, UserRegisterDto registerDto) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new CommonException(ErrorCode.NOT_FOUND_USER));
-
-        if (user.getRole() == ERole.GUEST) {
-            user.register(registerDto.toEntity(), ERole.HD_USER);
-        } else if (user.getRole() == ERole.AQD_USER) {
-            user.register(registerDto.toEntity(), ERole.BOTH_USER);
-        }
-
+        user.register(registerDto.toEntity(), ERole.HD_USER);
 
         UserDataPermission userDataPermission = new UserDataPermission(user);
         userDataPermissionRepository.save(userDataPermission);
