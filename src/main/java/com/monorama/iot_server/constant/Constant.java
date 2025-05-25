@@ -15,6 +15,7 @@ public class Constant {
             "/oauth2/authorization/google",
             "/login/oauth2/code/apple",
             "/oauth2/authorization/apple",
+            "/api/v1/auth/login/apple",
             "/api/v1/auth/refresh",
             "/favicon.ico"
     );

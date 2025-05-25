@@ -3,25 +3,50 @@ package com.monorama.iot_server.service;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.UserDataPermission;
 import com.monorama.iot_server.dto.JwtTokenDto;
+import com.monorama.iot_server.dto.request.auth.AppleLoginRequestDto;
 import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
 import com.monorama.iot_server.repository.UserDataPermissionRepository;
 import com.monorama.iot_server.repository.UserRepository;
+import com.monorama.iot_server.security.apple.AppleTokenVerifier;
+import com.monorama.iot_server.type.EProvider;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final UserRepository userRepository;
-    private final UserDataPermissionRepository userDataPermissonRepository;
+    private final UserDataPermissionRepository userDataPermissionRepository;
     private final JwtUtil jwtUtil;
+    private final AppleTokenVerifier appleTokenVerifier;
+
+    public JwtTokenDto loginWithAppleForApp(AppleLoginRequestDto appleLoginRequestDto) {
+        String socialId = appleTokenVerifier.verifyAndGetUserId(appleLoginRequestDto.identityToken());
+
+        UserRepository.UserSecurityForm user = userRepository.findBySocialIdAndEProvider(socialId, EProvider.APPLE)
+                .orElseGet(()->
+                {
+                    User newUser = userRepository.save(
+                            User.builder()
+                                    .role(ERole.GUEST)
+                                    .socialId(socialId)
+                                    .provider(EProvider.APPLE)
+                                    .build()
+                    );
+                    return UserRepository.UserSecurityForm.invoke(newUser);
+                });
+
+        return jwtUtil.generateTokens(user.getId(), user.getRole());
+    }
 
     @Transactional
     public JwtTokenDto registerPM(Long userId, PMRegisterDto registerDto) {
@@ -42,7 +67,7 @@ public class AuthService {
         user.register(registerDto.toEntity(), ERole.AQD_USER);
 
         UserDataPermission userDataPermission = new UserDataPermission(user);
-        userDataPermissonRepository.save(userDataPermission);
+        userDataPermissionRepository.save(userDataPermission);
 
         final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
         user.setRefreshToken(jwtTokenDto.getRefreshToken());
@@ -57,7 +82,7 @@ public class AuthService {
         user.register(registerDto.toEntity(), ERole.HD_USER);
 
         UserDataPermission userDataPermission = new UserDataPermission(user);
-        userDataPermissonRepository.save(userDataPermission);
+        userDataPermissionRepository.save(userDataPermission);
 
         final JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
         user.setRefreshToken(jwtTokenDto.getRefreshToken());
