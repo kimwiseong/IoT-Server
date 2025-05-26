@@ -39,5 +39,5 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd ~/Monorama-IoT
-            docker-compose pull spring
-            docker-compose up -d
+            sudo docker-compose pull spring
+            sudo docker-compose up -d
