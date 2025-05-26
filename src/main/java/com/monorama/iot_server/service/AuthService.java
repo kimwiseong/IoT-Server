@@ -29,23 +29,25 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final AppleTokenVerifier appleTokenVerifier;
 
+    @Transactional
     public JwtTokenDto loginWithAppleForApp(AppleLoginRequestDto appleLoginRequestDto) {
         String socialId = appleTokenVerifier.verifyAndGetUserId(appleLoginRequestDto.identityToken());
 
-        UserRepository.UserSecurityForm user = userRepository.findBySocialIdAndEProvider(socialId, EProvider.APPLE)
-                .orElseGet(()->
-                {
-                    User newUser = userRepository.save(
-                            User.builder()
-                                    .role(ERole.GUEST)
-                                    .socialId(socialId)
-                                    .provider(EProvider.APPLE)
-                                    .build()
-                    );
-                    return UserRepository.UserSecurityForm.invoke(newUser);
+        User user = userRepository.findBySocialIdAndEProviderForApp(socialId, EProvider.APPLE)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .role(ERole.GUEST)
+                            .socialId(socialId)
+                            .provider(EProvider.APPLE)
+                            .build();
+                    return userRepository.save(newUser); // 저장된 유저 객체 반환
                 });
 
-        return jwtUtil.generateTokens(user.getId(), user.getRole());
+        JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
+        user.setRefreshToken(jwtTokenDto.getRefreshToken());
+        user.setIsLogin(true);
+
+        return jwtTokenDto;
     }
 
     @Transactional

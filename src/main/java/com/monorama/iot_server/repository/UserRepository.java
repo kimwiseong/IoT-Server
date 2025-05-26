@@ -29,6 +29,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "FROM User u WHERE u.socialId = :socialId AND u.provider = :provider")
     Optional<UserSecurityForm> findBySocialIdAndEProvider(String socialId, EProvider provider);
 
+    @Query("SELECT u FROM User u " +
+            "WHERE u.socialId = :socialId AND u.provider = :provider")
+    Optional<User> findBySocialIdAndEProviderForApp(String socialId, EProvider provider);
+
 
     interface UserSecurityForm {
 

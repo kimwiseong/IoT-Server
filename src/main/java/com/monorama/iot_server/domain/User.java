@@ -82,6 +82,10 @@ public class User {
         this.refreshToken = refreshToken;
     }
 
+    public void setIsLogin(Boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
     public void register(PersonalInfoItem personalInfo, ERole role) {
         this.personalInfo = personalInfo;
         this.role = role;
