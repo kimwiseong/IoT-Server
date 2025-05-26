@@ -38,3 +38,9 @@ out/
 
 ### DS_Store ###
 .DS_Store
+
+
+### resource ###
+**/*.yml
+**/*.p12
+**/*.p8
