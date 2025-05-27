@@ -9,6 +9,7 @@ import com.monorama.iot_server.domain.embedded.PersonalInfoFlag;
 import java.util.Date;
 
 public record ProjectDetailResponseDto(
+        String pmEmail,
         String projectTitle,
         Integer participant,
         String description,
@@ -68,6 +69,7 @@ public record ProjectDetailResponseDto(
         AirQualityDataFlag a = project.getAirQualityDataFlag();
 
         return new ProjectDetailResponseDto(
+                project.getUser().getEmail(),
                 project.getTitle(),
                 project.getParticipant(),
                 project.getDescription(),
