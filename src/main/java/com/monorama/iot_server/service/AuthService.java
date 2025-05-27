@@ -40,7 +40,7 @@ public class AuthService {
                             .socialId(socialId)
                             .provider(EProvider.APPLE)
                             .build();
-                    return userRepository.save(newUser); // 저장된 유저 객체 반환
+                    return userRepository.save(newUser);
                 });
 
         JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
