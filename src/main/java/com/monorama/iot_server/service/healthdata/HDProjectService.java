@@ -5,11 +5,13 @@ import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.UserDataPermission;
 import com.monorama.iot_server.domain.UserProject;
 import com.monorama.iot_server.domain.type.TermsType;
+import com.monorama.iot_server.dto.response.project.AirMetaDataItemResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectDetailResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectListResponseDto;
 import com.monorama.iot_server.dto.response.project.ProjectSimpleResponseDto;
 import com.monorama.iot_server.dto.response.terms.TermsContentResponseDto;
 import com.monorama.iot_server.exception.CommonException;
+import com.monorama.iot_server.repository.AirMetaDataItemRepository;
 import com.monorama.iot_server.repository.ProjectRepository;
 import com.monorama.iot_server.repository.UserProjectRepository;
 import com.monorama.iot_server.repository.UserRepository;
@@ -29,6 +31,7 @@ public class HDProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final UserProjectRepository userProjectRepository;
+    private final AirMetaDataItemRepository airMetaDataItemRepository;
 
     public ProjectListResponseDto getAvailableHealthProjectList() {
         List<ProjectSimpleResponseDto> projects = projectRepository.findActiveHealthProjects()
@@ -42,7 +45,13 @@ public class HDProjectService {
     public ProjectDetailResponseDto getProjectDetail(Long projectId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PROJECT));
-        return ProjectDetailResponseDto.fromEntity(project);
+
+        List<AirMetaDataItemResponseDto> airMetaDataItemDtoList = airMetaDataItemRepository.findAllByProjectId(project.getId())
+                .stream()
+                .map(AirMetaDataItemResponseDto::fromEntity)
+                .toList();
+
+        return ProjectDetailResponseDto.fromEntity(project, airMetaDataItemDtoList);
     }
 
     public TermsContentResponseDto getTermsContent(Long projectId, TermsType type) {

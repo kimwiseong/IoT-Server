@@ -95,6 +95,10 @@ public class User {
         this.role = ERole.BOTH_USER;
     }
 
+    public String getEmail() {
+        return personalInfo.getEmail();
+    }
+
     private void setUserDataPermission(UserDataPermission userDataPermission) {
         this.userDataPermission = userDataPermission;
     }

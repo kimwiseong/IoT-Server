@@ -42,15 +42,13 @@ public class AuthController {
     }
 
     @PatchMapping("/register/air-quality-data")
-    public ResponseDto<?> registerAQDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto, HttpServletResponse response) {
-        JwtTokenDto tokenDto = authService.registerAQDUser(userId, registerDto);
-        return handleAccessTokenAndSetCookie(tokenDto, response);
+    public ResponseDto<JwtTokenDto> registerAQDUser(@UserId Long userId, @RequestBody @Valid UserRegisterDto registerDto) {
+        return ResponseDto.ok(authService.registerAQDUser(userId, registerDto));
     }
 
     @PatchMapping("/register/air-quality-data/role")
-    public ResponseDto<?> updateAQDToBoth(@UserId Long userId, HttpServletResponse response) {
-        JwtTokenDto tokenDto = authService.updateAQDUserRole(userId);
-        return handleAccessTokenAndSetCookie(tokenDto, response);
+    public ResponseDto<JwtTokenDto> updateAQDToBoth(@UserId Long userId) {
+        return ResponseDto.ok(authService.updateAQDUserRole(userId));
     }
 
     @PatchMapping("/register/health-data")
@@ -59,9 +57,8 @@ public class AuthController {
     }
 
     @PatchMapping("/register/health-data/role")
-    public ResponseDto<?> updateHDToBoth(@UserId Long userId, HttpServletResponse response) {
-        JwtTokenDto tokenDto = authService.updateHDUserRole(userId);
-        return handleAccessTokenAndSetCookie(tokenDto, response);
+    public ResponseDto<JwtTokenDto> updateHDToBoth(@UserId Long userId) {
+        return ResponseDto.ok(authService.updateHDUserRole(userId));
     }
 
     @PatchMapping("/refresh")
