@@ -7,6 +7,7 @@ import com.monorama.iot_server.domain.embedded.HealthDataFlag;
 import com.monorama.iot_server.domain.embedded.PersonalInfoFlag;
 
 import java.util.Date;
+import java.util.List;
 
 public record ProjectDetailResponseDto(
         String pmEmail,
@@ -23,6 +24,12 @@ public record ProjectDetailResponseDto(
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         Date createdAt,
+
+        String termsOfPolicy,
+        String privacyPolicy,
+        String healthDataConsent,
+        String airDataConsent,
+        String localDataTermsOfService,
 
         Boolean email,
         Boolean gender,
@@ -61,9 +68,14 @@ public record ProjectDetailResponseDto(
         Boolean vocValue,
         Boolean vocLevel,
         Boolean picoDeviceLatitude,
-        Boolean picoDeviceLongitude
+        Boolean picoDeviceLongitude,
+
+        List<AirMetaDataItemResponseDto> airMetaDataItemList
 ) {
-    public static ProjectDetailResponseDto fromEntity(Project project) {
+    public static ProjectDetailResponseDto fromEntity(
+            Project project,
+            List<AirMetaDataItemResponseDto> airMetaDataItemDtoList
+    ) {
         PersonalInfoFlag p = project.getPersonalInfoFlag();
         HealthDataFlag h = project.getHealthDataFlag();
         AirQualityDataFlag a = project.getAirQualityDataFlag();
@@ -77,6 +89,12 @@ public record ProjectDetailResponseDto(
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getCreatedAt(),
+
+                project.getTermsOfPolicy(),
+                project.getPrivacyPolicy(),
+                project.getHealthDataConsent(),
+                project.getAirDataConsent(),
+                project.getLocalDataTermsOfService(),
 
                 p.getEmail(),
                 p.getGender(),
@@ -115,7 +133,9 @@ public record ProjectDetailResponseDto(
                 a.getVocValue(),
                 a.getVocLevel(),
                 a.getPicoDeviceLatitude(),
-                a.getPicoDeviceLongitude()
+                a.getPicoDeviceLongitude(),
+
+                airMetaDataItemDtoList
         );
     }
 }
