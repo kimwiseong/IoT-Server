@@ -1,6 +1,7 @@
 package com.monorama.iot_server.repository;
 
 import com.monorama.iot_server.domain.Project;
+import com.monorama.iot_server.domain.type.ProjectType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
       AND p.endDate >= CURRENT_DATE
     """)
     List<Project> findActiveHealthProjects();
+
+    @Query("SELECT p FROM Project p WHERE p.id = :projectId AND p.projectType != :excludedType")
+    Optional<Project> findByIdAndProjectTypeNot(@Param("projectId") Long projectId, @Param("excludedType") ProjectType excludedType);
 
     @Query("""
     SELECT p FROM Project p
