@@ -124,6 +124,7 @@ public class AuthService {
         return jwtTokenDto;
     }
 
+    @Transactional
     public JwtTokenDto refresh(String refreshToken, HttpServletRequest request) {
         Long userId = jwtUtil.extractUserIdFromToken(refreshToken);
 
@@ -140,4 +141,11 @@ public class AuthService {
         return newTokens;
     }
 
+    @Transactional
+    public void withdrawUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        user.withdrawUser();
+    }
 }

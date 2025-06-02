@@ -7,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,5 +48,12 @@ public class PersonalInfoItem {
 
     @Column(name = "weight")
     private Double weight;
+
+    public void withdraw() {
+        this.name = null;
+        this.email = null;
+        this.phoneNumber = null;
+        this.nationalCode = null;
+    }
 }
 
