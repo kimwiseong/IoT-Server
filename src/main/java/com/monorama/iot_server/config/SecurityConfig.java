@@ -85,7 +85,7 @@ public class SecurityConfig {
                 )
                 .logout(configurer ->
                         configurer
-                                .logoutUrl("api/auth/logout")
+                                .logoutUrl("/api/auth/logout")
                                 .addLogoutHandler(customLogOutProcessHandler)
                                 .logoutSuccessHandler(customLogOutResultHandler)
                                 .deleteCookies(Constant.AUTHORIZATION,Constant.REAUTHORIZATION)
