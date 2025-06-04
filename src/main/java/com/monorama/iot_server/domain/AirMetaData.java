@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "air_mata_data_tb")
+@Table(name = "air_meta_data_tb")
 @NoArgsConstructor
 public class AirMetaData {
 
