@@ -16,8 +16,8 @@ public class HDProjectController {
     private final HDProjectService projectService;
 
     @GetMapping("/projects")
-    public ResponseDto<ProjectListResponseDto> getAllProjects() {
-        return ResponseDto.ok(projectService.getAvailableHealthProjectList());
+    public ResponseDto<ProjectListResponseDto> getAllProjects(@UserId Long userId) {
+        return ResponseDto.ok(projectService.getAvailableHealthProjectList(userId));
     }
 
     @GetMapping("/projects/{projectId}")
