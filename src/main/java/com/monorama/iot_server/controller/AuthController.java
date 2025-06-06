@@ -78,13 +78,6 @@ public class AuthController {
         return ResponseDto.ok(null);
     }
 
-    @PostMapping("/kibana-user")
-    public ResponseDto<?> createKibanaUser(@UserId Long userId, String roleName) {
-        authService.createKibanaUser(userId, roleName);
-        return ResponseDto.ok(null);
-    }
-
-
     private ResponseDto<?> handleAccessTokenAndSetCookie(JwtTokenDto tokenDto, HttpServletResponse response) {
         CookieUtil.addSecureCookie(
                 response,

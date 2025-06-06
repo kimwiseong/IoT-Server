@@ -177,8 +177,8 @@ public class AuthService {
         };
 
         String password = "user" + userId + "password";
-
         String userCreateUrl = esApiUrl + "/_security/user/" + userName;
+
 
         String body = """
         {
