@@ -88,5 +88,6 @@ public class AQDProjectService {
         permission.getAirQualityDataFlag().updateBy(project.getAirQualityDataFlag());
         permission.getHealthDataFlag().updateBy(project.getHealthDataFlag());
         permission.getPersonalInfoFlag().updateBy(project.getPersonalInfoFlag());
+
     }
 }
