@@ -1,5 +1,6 @@
 package com.monorama.iot_server.service;
 
+import com.monorama.iot_server.config.ElasticsearchProperties;
 import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.UserDataPermission;
 import com.monorama.iot_server.dto.JwtTokenDto;
@@ -18,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,15 +32,8 @@ public class AuthService {
     private final UserDataPermissionRepository userDataPermissionRepository;
     private final JwtUtil jwtUtil;
     private final AppleTokenVerifier appleTokenVerifier;
+    private final ElasticsearchProperties elasticsearchProperties;
 
-    @Value("${external.elasticsearch.url}")
-    private String esApiUrl;
-
-    @Value("${external.elasticsearch.username}")
-    private String esUsername;
-
-    @Value("${external.elasticsearch.password}")
-    private String esPassword;
 
     @Transactional
     public JwtTokenDto loginWithAppleForApp(AppleLoginRequestDto appleLoginRequestDto) {
@@ -170,15 +163,13 @@ public class AuthService {
 
     @Transactional
     public void createKibanaUser(Long userId, String roleName) {
-
         String userName = switch (roleName) {
             case "monorama_pm_role" -> "manager" + userId;
             default -> "user" + userId;
         };
 
         String password = "user" + userId + "password";
-        String userCreateUrl = esApiUrl + "/_security/user/" + userName;
-
+        String userCreateUrl = elasticsearchProperties.getUrl() + "/_security/user/" + userName;
 
         String body = """
         {
@@ -192,10 +183,12 @@ public class AuthService {
         }
         """.formatted(password, roleName, userName, userId);
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBasicAuth(esUsername, esPassword);
+        headers.setBasicAuth(
+                elasticsearchProperties.getUsername(),
+                elasticsearchProperties.getPassword()
+        );
 
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
@@ -210,5 +203,4 @@ public class AuthService {
             throw new CommonException(ErrorCode.EXTERNAL_API_ERROR);
         }
     }
-
 }
