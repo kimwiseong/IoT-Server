@@ -66,8 +66,8 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/metadata/**").hasAnyRole((ERole.AQD_USER.toString()),ERole.BOTH_USER.toString())
-                        .requestMatchers("/api/v1/projects/**").hasAnyRole((ERole.PM.toString()),ERole.BOTH_USER.toString(), ERole.AQD_USER.toString(), ERole.HD_USER.toString())
+                        .requestMatchers("/api/v1/metadata/**").hasAnyRole((ERole.PM.toString()),ERole.BOTH_USER.toString(), ERole.AQD_USER.toString())
+                        .requestMatchers("/api/v1/pm/**").hasAnyRole((ERole.PM.toString()))
                         .requestMatchers("/api/v1/health-data/**").hasAnyRole((ERole.BOTH_USER.toString()),ERole.HD_USER.toString())
                         .requestMatchers("/api/v1/air-quality-data/**").hasAnyRole((ERole.BOTH_USER.toString()), ERole.AQD_USER.toString())
                         .anyRequest().authenticated())
