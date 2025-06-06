@@ -72,6 +72,12 @@ public class AuthController {
         return handleAccessTokenAndSetCookie(newTokens, response);
     }
 
+    @DeleteMapping("/withdraw")
+    public ResponseDto<?> withdrawUser(@UserId Long userId) {
+        authService.withdrawUser(userId);
+        return ResponseDto.ok(null);
+    }
+
     private ResponseDto<?> handleAccessTokenAndSetCookie(JwtTokenDto tokenDto, HttpServletResponse response) {
         CookieUtil.addSecureCookie(
                 response,

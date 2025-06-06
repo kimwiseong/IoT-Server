@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "user_tb")
 public class User {
 
@@ -101,5 +103,13 @@ public class User {
 
     private void setUserDataPermission(UserDataPermission userDataPermission) {
         this.userDataPermission = userDataPermission;
+    }
+
+    public void withdrawUser() {
+        this.isLogin = false;
+        this.socialId = null;
+        this.refreshToken = null;
+        this.personalInfo.withdraw();
+        this.role = ERole.WITHDRAWN;
     }
 }

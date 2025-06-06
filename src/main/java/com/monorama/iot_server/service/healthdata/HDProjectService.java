@@ -15,6 +15,7 @@ import com.monorama.iot_server.repository.AirMetaDataItemRepository;
 import com.monorama.iot_server.repository.ProjectRepository;
 import com.monorama.iot_server.repository.UserProjectRepository;
 import com.monorama.iot_server.repository.UserRepository;
+import com.monorama.iot_server.type.ERole;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +34,11 @@ public class HDProjectService {
     private final UserProjectRepository userProjectRepository;
     private final AirMetaDataItemRepository airMetaDataItemRepository;
 
-    public ProjectListResponseDto getAvailableHealthProjectList() {
-        List<ProjectSimpleResponseDto> projects = projectRepository.findActiveHealthProjects()
+    public ProjectListResponseDto getAvailableHealthProjectList(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        List<ProjectSimpleResponseDto> projects = projectRepository.findActiveHealthProjects((user.getRole() == ERole.BOTH_USER))
                 .stream()
                 .map(ProjectSimpleResponseDto::fromEntity)
                 .toList();

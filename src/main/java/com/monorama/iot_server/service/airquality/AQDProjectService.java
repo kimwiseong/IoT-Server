@@ -12,10 +12,11 @@ import com.monorama.iot_server.dto.response.project.ProjectSimpleResponseDto;
 import com.monorama.iot_server.dto.response.terms.TermsContentResponseDto;
 import com.monorama.iot_server.exception.CommonException;
 import com.monorama.iot_server.exception.ErrorCode;
-import com.monorama.iot_server.repository.AQDProjectRepository;
 import com.monorama.iot_server.repository.AirMetaDataItemRepository;
+import com.monorama.iot_server.repository.ProjectRepository;
 import com.monorama.iot_server.repository.UserProjectRepository;
 import com.monorama.iot_server.repository.UserRepository;
+import com.monorama.iot_server.type.ERole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,16 @@ import java.util.List;
 @Slf4j
 public class AQDProjectService {
 
-    private final AQDProjectRepository aqdProjectRepo;
+    private final ProjectRepository projectRepository;
     private final UserRepository userRepo;
     private final UserProjectRepository userProjectRepo;
     private final AirMetaDataItemRepository airMetaDataItemRepository;
 
-    public ProjectListResponseDto getAvailableAirQualityProjectList() {
-        List<ProjectSimpleResponseDto> projects = aqdProjectRepo.findActiveAirQualityProjects()
+    public ProjectListResponseDto getAvailableAirQualityProjectList(Long userId) {
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+        List<ProjectSimpleResponseDto> projects = projectRepository.findActiveAirQualityProjects((user.getRole() == ERole.BOTH_USER))
                 .stream()
                 .map(ProjectSimpleResponseDto::fromEntity)
                 .toList();
@@ -43,7 +47,7 @@ public class AQDProjectService {
     }
 
     public ProjectDetailResponseDto getAQDProjectDetail(Long projectId) {
-        Project project = aqdProjectRepo.findById(projectId)
+        Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PROJECT));
 
         List<AirMetaDataItemResponseDto> airMetaDataItemDtoList = airMetaDataItemRepository.findAllByProjectId(project.getId())
@@ -55,7 +59,7 @@ public class AQDProjectService {
     }
 
     public TermsContentResponseDto getTermsContent(Long projectId, TermsType type) {
-        Project project = aqdProjectRepo.findById(projectId)
+        Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_RESOURCE));
 
         return TermsContentResponseDto.fromEntity(project, type);
@@ -66,7 +70,7 @@ public class AQDProjectService {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        Project project = aqdProjectRepo.findActiveAirQualityProjectById(projectId)
+        Project project = projectRepository.findActiveAirQualityProjectById(projectId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PROJECT_NOT_AVAILABLE));
 
         if (userProjectRepo.existsByUserAndProject(user, project)) {

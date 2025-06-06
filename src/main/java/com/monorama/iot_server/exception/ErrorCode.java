@@ -47,6 +47,9 @@ public enum ErrorCode {
     NOT_FOUND_USER(40401, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_METADATA_ITEM(40402,HttpStatus.NOT_FOUND,"해당 메타데이터 항목이 존재하지 않습니다."),
     NOT_FOUND_PROJECT(40403, HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."),
+
+    ALREADY_EXISTS_METADATA(40900, HttpStatus.CONFLICT, "이미 존재하는 메타데이터입니다."),
+
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
     ALREADY_JOINED_PROJECT(50001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 가입된 프로젝트입니다."),
     PROJECT_NOT_AVAILABLE(50002, HttpStatus.INTERNAL_SERVER_ERROR, "해당 프로젝트는 현재 참여할 수 없습니다."),

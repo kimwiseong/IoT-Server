@@ -9,8 +9,8 @@ public enum ERole {
     AQD_USER("AQD_USER", "ROLE_AQD_USER"),
     BOTH_USER("BOTH_USER", "ROLE_BOTH_USER"),
     ADMIN("ADMIN", "ROLE_ADMIN"),
-    GUEST("GUEST", "ROLE_GUEST");
-
+    GUEST("GUEST", "ROLE_GUEST"),
+    WITHDRAWN("WITHDRAWN", "ROLE_WITHDRAWN");
     private final String name;
     private final String securityName;
 

@@ -3,6 +3,7 @@ package com.monorama.iot_server.service.metadata;
 import com.monorama.iot_server.domain.AirMetaDataItem;
 import com.monorama.iot_server.domain.Project;
 import com.monorama.iot_server.domain.User;
+import com.monorama.iot_server.domain.type.ProjectType;
 import com.monorama.iot_server.dto.request.metadata.MetaDataListRequestDto;
 import com.monorama.iot_server.dto.response.metadata.MetaDataItemListResponseDto;
 import com.monorama.iot_server.dto.response.metadata.MetaDataItemResponseDto;
@@ -14,12 +15,14 @@ import com.monorama.iot_server.repository.AirMetaDataItemRepository;
 import com.monorama.iot_server.repository.AirMetaDataRepository;
 import com.monorama.iot_server.repository.ProjectRepository;
 import com.monorama.iot_server.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MetaDataService {
 
@@ -40,8 +43,12 @@ public class MetaDataService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        Project project = projectRepository.findById(projectId)
+        Project project = projectRepository.findByIdAndProjectTypeNot(projectId, ProjectType.HEALTH_DATA)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_PROJECT));
+
+        if (airMetaDataRepository.existsByUserIdAndProjectId(userId, projectId)) {
+            throw new CommonException(ErrorCode.ALREADY_EXISTS_METADATA);
+        }
 
         airMetaDataRepository.saveAll(
                 metaDataList.metaDataList().stream()
