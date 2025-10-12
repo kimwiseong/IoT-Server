@@ -14,12 +14,13 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("""
     SELECT p FROM Project p
-    WHERE (p.projectType = com.monorama.iot_server.domain.type.ProjectType.HEALTH_DATA OR
-        p.projectType = com.monorama.iot_server.domain.type.ProjectType.BOTH)
+    WHERE
+        (:includeBoth = true AND (p.projectType = com.monorama.iot_server.domain.type.ProjectType.HEALTH_DATA OR p.projectType = com.monorama.iot_server.domain.type.ProjectType.BOTH) OR
+         :includeBoth = false AND p.projectType = com.monorama.iot_server.domain.type.ProjectType.HEALTH_DATA)
       AND p.startDate <= CURRENT_DATE
       AND p.endDate >= CURRENT_DATE
     """)
-    List<Project> findActiveHealthProjects();
+    List<Project> findActiveHealthProjects(@Param("includeBoth") boolean includeBoth);
 
     @Query("SELECT p FROM Project p WHERE p.id = :projectId AND p.projectType != :excludedType")
     Optional<Project> findByIdAndProjectTypeNot(@Param("projectId") Long projectId, @Param("excludedType") ProjectType excludedType);
@@ -39,4 +40,24 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     WHERE p.user.id = :pmId
     """)
     List<Project> findAllByPMId(Long pmId);
+
+    @Query("""
+    SELECT p FROM Project p
+    WHERE
+        (:includeBoth = true AND (p.projectType = com.monorama.iot_server.domain.type.ProjectType.AIR_QUALITY OR p.projectType = com.monorama.iot_server.domain.type.ProjectType.BOTH) OR
+         :includeBoth = false AND p.projectType = com.monorama.iot_server.domain.type.ProjectType.AIR_QUALITY)
+      AND p.startDate <= CURRENT_DATE
+      AND p.endDate >= CURRENT_DATE
+    """)
+    List<Project> findActiveAirQualityProjects(@Param("includeBoth") boolean includeBoth);
+
+    @Query("""
+    SELECT p FROM Project p
+    WHERE p.id = :projectId
+      AND p.startDate <= CURRENT_DATE
+      AND p.endDate >= CURRENT_DATE
+      AND (p.projectType = com.monorama.iot_server.domain.type.ProjectType.AIR_QUALITY
+           OR p.projectType = com.monorama.iot_server.domain.type.ProjectType.BOTH)
+    """)
+    Optional<Project> findActiveAirQualityProjectById(@Param("projectId") Long projectId);
 }

@@ -50,13 +50,13 @@ public enum ErrorCode {
     NOT_FOUND_PROJECT(40403, HttpStatus.NOT_FOUND, "해당 프로젝트가 존재하지 않습니다."),
 
     ALREADY_EXISTS_METADATA(40900, HttpStatus.CONFLICT, "이미 존재하는 메타데이터입니다."),
+    ALREADY_JOINED_PROJECT(40901, HttpStatus.CONFLICT, "이미 가입된 프로젝트입니다."),
+    PROJECT_NOT_AVAILABLE(40009, HttpStatus.BAD_REQUEST, "해당 프로젝트는 현재 참여할 수 없습니다."),
 
     SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
-    ALREADY_JOINED_PROJECT(50001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 가입된 프로젝트입니다."),
-    PROJECT_NOT_AVAILABLE(50002, HttpStatus.INTERNAL_SERVER_ERROR, "해당 프로젝트는 현재 참여할 수 없습니다."),
     ILLEGAL_STATE(50003, HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 상태입니다."),
-    RUNTIME_EXCEPTION(50004, HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다.");
-
+    RUNTIME_EXCEPTION(50004, HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류입니다."),
+    EXTERNAL_API_ERROR(50300, HttpStatus.SERVICE_UNAVAILABLE, "외부 API 요청에 실패하였습니다.");
 
 
     private final Integer code;

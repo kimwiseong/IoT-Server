@@ -16,8 +16,8 @@ public class AQDProjectController {
     private final AQDProjectService aqdProjectService;
 
     @GetMapping("/projects")
-    public ResponseDto<ProjectListResponseDto> getAllProjects() {
-        return ResponseDto.ok(aqdProjectService.getAvailableAirQualityProjectList());
+    public ResponseDto<ProjectListResponseDto> getAllProjects(@UserId Long userId) {
+        return ResponseDto.ok(aqdProjectService.getAvailableAirQualityProjectList(userId));
     }
 
     @GetMapping("/projects/{projectId}")
