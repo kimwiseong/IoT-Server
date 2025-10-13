@@ -5,6 +5,7 @@ import com.monorama.iot_server.domain.User;
 import com.monorama.iot_server.domain.UserDataPermission;
 import com.monorama.iot_server.dto.JwtTokenDto;
 import com.monorama.iot_server.dto.request.auth.AppleLoginRequestDto;
+import com.monorama.iot_server.dto.request.auth.GoogleLoginRequestDto;
 import com.monorama.iot_server.dto.request.register.UserRegisterDto;
 import com.monorama.iot_server.dto.request.register.PMRegisterDto;
 import com.monorama.iot_server.exception.CommonException;
@@ -12,9 +13,11 @@ import com.monorama.iot_server.exception.ErrorCode;
 import com.monorama.iot_server.repository.UserDataPermissionRepository;
 import com.monorama.iot_server.repository.UserRepository;
 import com.monorama.iot_server.security.apple.AppleTokenVerifier;
+import com.monorama.iot_server.security.google.GoogleTokenVerifier;
 import com.monorama.iot_server.type.EProvider;
 import com.monorama.iot_server.type.ERole;
 import com.monorama.iot_server.util.JwtUtil;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +35,8 @@ public class AuthService {
     private final UserDataPermissionRepository userDataPermissionRepository;
     private final JwtUtil jwtUtil;
     private final AppleTokenVerifier appleTokenVerifier;
+    private final GoogleTokenVerifier googleTokenVerifier;
     private final ElasticsearchProperties elasticsearchProperties;
-
 
     @Transactional
     public JwtTokenDto loginWithAppleForApp(AppleLoginRequestDto appleLoginRequestDto) {
@@ -45,6 +48,29 @@ public class AuthService {
                             .role(ERole.GUEST)
                             .socialId(socialId)
                             .provider(EProvider.APPLE)
+                            .build();
+                    return userRepository.save(newUser);
+                });
+
+        JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(user.getId(), user.getRole());
+        user.setRefreshToken(jwtTokenDto.getRefreshToken());
+        user.setIsLogin(true);
+
+        return jwtTokenDto;
+    }
+
+    @Transactional
+    public JwtTokenDto loginWithGoogleForApp(GoogleLoginRequestDto googleLoginRequestDto) {
+        GoogleIdToken.Payload payload = googleTokenVerifier.verifyAndGetPayload(googleLoginRequestDto.idToken());
+        String socialId = payload.getSubject();
+        String email = payload.getEmail();
+
+        User user = userRepository.findBySocialIdAndEProviderForApp(socialId, EProvider.GOOGLE)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .role(ERole.GUEST)
+                            .socialId(socialId)
+                            .provider(EProvider.GOOGLE)
                             .build();
                     return userRepository.save(newUser);
                 });
