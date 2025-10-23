@@ -22,7 +22,7 @@ public record ProjectSimpleForPMResponseDto(
                 project.getId(),
                 project.getTitle(),
                 project.getProjectType().toString(),
-                project.getParticipant(),
+                project.getMaxParticipant(),
                 project.getStartDate(),
                 project.getEndDate()
         );

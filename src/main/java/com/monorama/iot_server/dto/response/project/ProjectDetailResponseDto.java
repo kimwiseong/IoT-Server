@@ -84,7 +84,7 @@ public record ProjectDetailResponseDto(
         return new ProjectDetailResponseDto(
                 project.getUser().getEmail(),
                 project.getTitle(),
-                project.getParticipant(),
+                project.getMaxParticipant(),
                 project.getDescription(),
                 project.getProjectType().toString(),
                 project.getStartDate(),

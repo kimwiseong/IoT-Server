@@ -35,8 +35,11 @@ public class Project {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "participant")
-    private Integer participant;
+    @Column(name = "max_participant")
+    private Integer maxParticipant;
+
+    @Column(name = "cur_participant")
+    private Integer curParticipant ;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -94,6 +97,11 @@ public class Project {
     private List<AirMetaData> airMetaDataList = new ArrayList<>();
 
     /*** constructor ***/
+    @PrePersist
+    public void prePersist() {
+        curParticipant = 0;
+    }
+
     @Builder
     public Project(ProjectType projectType,
                    String title,
@@ -111,7 +119,7 @@ public class Project {
                    AirQualityDataFlag airQualityDataFlag) {
         this.projectType = projectType;
         this.title = title;
-        this.participant = participant;
+        this.maxParticipant = participant;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
@@ -129,5 +137,9 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
         user.getProjectList().add(this);
+    }
+
+    public void increaseParticipant() {
+        this.curParticipant += 1;
     }
 }
