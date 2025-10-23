@@ -11,8 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -40,16 +41,16 @@ public class Project {
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "DATETIME(0)")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "description")
     private String description;
@@ -97,8 +98,8 @@ public class Project {
     public Project(ProjectType projectType,
                    String title,
                    Integer participant,
-                   Date startDate,
-                   Date endDate,
+                   LocalDate startDate,
+                   LocalDate endDate,
                    String description,
                    String termsOfPolicy,
                    String privacyPolicy,
